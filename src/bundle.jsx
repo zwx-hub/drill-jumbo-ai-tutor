@@ -1,10 +1,9 @@
+﻿
 
-
-// ===== Scene3D.jsx =====
+// ===== src/Scene3D.jsx =====
 /* ============================================================
-   三臂凿岩台车 3D 场景组件
-   支持爆炸视图、部件点击高亮、教学引导
-   基于中铁装备DJ3G三臂凿岩台车结构
+   涓夎噦鍑垮博鍙拌溅 3D 鍦烘櫙缁勪欢
+   鏀寔鐖嗙偢瑙嗗浘銆侀儴浠剁偣鍑婚珮浜€佹暀瀛﹀紩瀵?   鍩轰簬涓搧瑁呭DJ3G涓夎噦鍑垮博鍙拌溅缁撴瀯
    ============================================================ */
 
 const DrillScene = (() => {
@@ -25,70 +24,70 @@ const DrillScene = (() => {
   // All parts with metadata for structural education
   const PARTS_METADATA = {
     chassis: {
-      name: '轮式底盘',
-      function: '承载整机，提供行走动力，采用四驱铰接式底盘，适应隧道内复杂路面条件。整机重量约50吨，底盘功率180kW。',
-      connection: '螺栓连接 4处（底盘与主机架）',
-      sensors: '车速传感器、转向角度传感器',
+      name: '杞紡搴曠洏',
+      function: '鎵胯浇鏁存満锛屾彁渚涜璧板姩鍔涳紝閲囩敤鍥涢┍閾版帴寮忓簳鐩橈紝閫傚簲闅ч亾鍐呭鏉傝矾闈㈡潯浠躲€傛暣鏈洪噸閲忕害50鍚紝搴曠洏鍔熺巼180kW銆?,
+      connection: '铻烘爴杩炴帴 4澶勶紙搴曠洏涓庝富鏈烘灦锛?,
+      sensors: '杞﹂€熶紶鎰熷櫒銆佽浆鍚戣搴︿紶鎰熷櫒',
     },
     cabin: {
-      name: '操作驾驶室',
-      function: '操作员控制中心，配备全景玻璃窗，内有主控制台、座椅、方向盘，可观察掌子面作业情况。',
-      connection: '减震螺栓连接 6处',
-      sensors: '驾驶室倾角传感器、空调压力传感器',
+      name: '鎿嶄綔椹鹃┒瀹?,
+      function: '鎿嶄綔鍛樻帶鍒朵腑蹇冿紝閰嶅鍏ㄦ櫙鐜荤拑绐楋紝鍐呮湁涓绘帶鍒跺彴銆佸骇妞呫€佹柟鍚戠洏锛屽彲瑙傚療鎺屽瓙闈綔涓氭儏鍐点€?,
+      connection: '鍑忛渿铻烘爴杩炴帴 6澶?,
+      sensors: '椹鹃┒瀹ゅ€捐浼犳劅鍣ㄣ€佺┖璋冨帇鍔涗紶鎰熷櫒',
     },
     baseJoint: {
-      name: '大臂连接座',
-      function: '钻臂与主机的连接基础，承受钻臂作业时的全部反力与力矩，采用高强度铸钢件。',
-      connection: '胀销连接 2处 + 螺栓连接 8处',
-      sensors: '底座压力传感器',
+      name: '澶ц噦杩炴帴搴?,
+      function: '閽昏噦涓庝富鏈虹殑杩炴帴鍩虹锛屾壙鍙楅捇鑷備綔涓氭椂鐨勫叏閮ㄥ弽鍔涗笌鍔涚煩锛岄噰鐢ㄩ珮寮哄害閾搁挗浠躲€?,
+      connection: '鑳€閿€杩炴帴 2澶?+ 铻烘爴杩炴帴 8澶?,
+      sensors: '搴曞骇鍘嬪姏浼犳劅鍣?,
     },
     boom: {
-      name: '基本臂体（大臂）',
-      function: '钻臂主承载结构，采用高强度钢焊接箱型结构，可实现俯仰、摆动、伸缩三种运动。最大举升角度+65°/-30°，左右摆动±45°。',
-      connection: '胀销连接 6处、螺栓连接 2处',
-      sensors: '大臂竖直角度传感器、大臂水平角度传感器',
+      name: '鍩烘湰鑷備綋锛堝ぇ鑷傦級',
+      function: '閽昏噦涓绘壙杞界粨鏋勶紝閲囩敤楂樺己搴﹂挗鐒婃帴绠卞瀷缁撴瀯锛屽彲瀹炵幇淇话銆佹憜鍔ㄣ€佷几缂╀笁绉嶈繍鍔ㄣ€傛渶澶т妇鍗囪搴?65掳/-30掳锛屽乏鍙虫憜鍔?5掳銆?,
+      connection: '鑳€閿€杩炴帴 6澶勩€佽灪鏍撹繛鎺?2澶?,
+      sensors: '澶ц噦绔栫洿瑙掑害浼犳劅鍣ㄣ€佸ぇ鑷傛按骞宠搴︿紶鎰熷櫒',
     },
     cylinder: {
-      name: '大臂伸缩油缸',
-      function: '驱动伸缩臂在基本臂体内伸缩，最大伸缩量≥2.5m。采用双作用液压油缸，带位移传感器实时反馈伸缩量。',
-      connection: '销轴连接 2处',
-      sensors: '油缸位移传感器、油压传感器',
+      name: '澶ц噦浼哥缉娌圭几',
+      function: '椹卞姩浼哥缉鑷傚湪鍩烘湰鑷備綋鍐呬几缂╋紝鏈€澶т几缂╅噺鈮?.5m銆傞噰鐢ㄥ弻浣滅敤娑插帇娌圭几锛屽甫浣嶇Щ浼犳劅鍣ㄥ疄鏃跺弽棣堜几缂╅噺銆?,
+      connection: '閿€杞磋繛鎺?2澶?,
+      sensors: '娌圭几浣嶇Щ浼犳劅鍣ㄣ€佹补鍘嬩紶鎰熷櫒',
     },
     telescopicArm: {
-      name: '伸缩臂',
-      function: '嵌套在基本臂体内的可伸缩结构，用于扩大作业范围，表面镀铬防腐，带有导向滑块。',
-      connection: '滑动配合（导向铜套）',
-      sensors: '伸缩位移传感器',
+      name: '浼哥缉鑷?,
+      function: '宓屽鍦ㄥ熀鏈噦浣撳唴鐨勫彲浼哥缉缁撴瀯锛岀敤浜庢墿澶т綔涓氳寖鍥达紝琛ㄩ潰闀€閾槻鑵愶紝甯︽湁瀵煎悜婊戝潡銆?,
+      connection: '婊戝姩閰嶅悎锛堝鍚戦摐濂楋級',
+      sensors: '浼哥缉浣嶇Щ浼犳劅鍣?,
     },
     shortArm: {
-      name: '短臂（T型梁连接臂）',
-      function: '连接伸缩臂前端与T型梁，实现推进梁的俯仰与翻转补偿。',
-      connection: '铰轴连接 2处',
-      sensors: '短臂角度传感器',
+      name: '鐭噦锛圱鍨嬫杩炴帴鑷傦級',
+      function: '杩炴帴浼哥缉鑷傚墠绔笌T鍨嬫锛屽疄鐜版帹杩涙鐨勪刊浠颁笌缈昏浆琛ュ伩銆?,
+      connection: '閾拌酱杩炴帴 2澶?,
+      sensors: '鐭噦瑙掑害浼犳劅鍣?,
     },
     tBeam: {
-      name: 'T型梁（推进梁翻转架）',
-      function: '推进梁的支撑与翻转机构，可使推进梁实现±180°翻转，满足不同角度钻孔需求。',
-      connection: '回转支承连接',
-      sensors: '推进梁翻转角度传感器',
+      name: 'T鍨嬫锛堟帹杩涙缈昏浆鏋讹級',
+      function: '鎺ㄨ繘姊佺殑鏀拺涓庣炕杞満鏋勶紝鍙娇鎺ㄨ繘姊佸疄鐜奥?80掳缈昏浆锛屾弧瓒充笉鍚岃搴﹂捇瀛旈渶姹傘€?,
+      connection: '鍥炶浆鏀壙杩炴帴',
+      sensors: '鎺ㄨ繘姊佺炕杞搴︿紶鎰熷櫒',
     },
     feedBeam: {
-      name: '推进梁',
-      function: '凿岩机的导轨与推进机构，总长≥7000mm，推进补偿1800mm，钻臂补偿1600mm。通过液压马达驱动链条带动凿岩机沿导轨运动。',
-      connection: '滑块导轨配合',
-      sensors: '推进位移传感器、推进压力传感器',
+      name: '鎺ㄨ繘姊?,
+      function: '鍑垮博鏈虹殑瀵艰建涓庢帹杩涙満鏋勶紝鎬婚暱鈮?000mm锛屾帹杩涜ˉ鍋?800mm锛岄捇鑷傝ˉ鍋?600mm銆傞€氳繃娑插帇椹揪椹卞姩閾炬潯甯﹀姩鍑垮博鏈烘部瀵艰建杩愬姩銆?,
+      connection: '婊戝潡瀵艰建閰嶅悎',
+      sensors: '鎺ㄨ繘浣嶇Щ浼犳劅鍣ㄣ€佹帹杩涘帇鍔涗紶鎰熷櫒',
     },
     rockDrill: {
-      name: '凿岩机',
-      function: '钻孔作业核心部件，冲击功率27~31kW，冲击频率≥4300次/min（约70Hz），旋转扭矩≥650N·m。将冲击能与旋转扭矩传递给钻杆。',
-      connection: '螺栓连接 4处',
-      sensors: '冲击压力传感器、回转压力传感器、转速传感器',
+      name: '鍑垮博鏈?,
+      function: '閽诲瓟浣滀笟鏍稿績閮ㄤ欢锛屽啿鍑诲姛鐜?7~31kW锛屽啿鍑婚鐜団墺4300娆?min锛堢害70Hz锛夛紝鏃嬭浆鎵煩鈮?50N路m銆傚皢鍐插嚮鑳戒笌鏃嬭浆鎵煩浼犻€掔粰閽绘潌銆?,
+      connection: '铻烘爴杩炴帴 4澶?,
+      sensors: '鍐插嚮鍘嬪姏浼犳劅鍣ㄣ€佸洖杞帇鍔涗紶鎰熷櫒銆佽浆閫熶紶鎰熷櫒',
     },
     drillRod: {
-      name: '钻杆与钻头',
-      function: '传递冲击能量和旋转力矩至岩石，前端钻头采用硬质合金球齿，耐磨耐冲击。钻孔直径45~127mm。',
-      connection: '螺纹连接（R32/T38/T45/T51）',
-      sensors: '无（消耗件）',
+      name: '閽绘潌涓庨捇澶?,
+      function: '浼犻€掑啿鍑昏兘閲忓拰鏃嬭浆鍔涚煩鑷冲博鐭筹紝鍓嶇閽诲ご閲囩敤纭川鍚堥噾鐞冮娇锛岃€愮（鑰愬啿鍑汇€傞捇瀛旂洿寰?5~127mm銆?,
+      connection: '铻虹汗杩炴帴锛圧32/T38/T45/T51锛?,
+      sensors: '鏃狅紙娑堣€椾欢锛?,
     },
   };
 
@@ -474,7 +473,7 @@ const DrillScene = (() => {
     boomPivot.rotation.x = -Math.PI / 6;
     armGroup.add(boomPivot);
 
-    // Boom (基本臂体)
+    // Boom (鍩烘湰鑷備綋)
     const boomGeo = new THREE.BoxGeometry(0.5, 0.5, 3);
     const boom = new THREE.Mesh(boomGeo, armMat);
     boom.position.set(0, 0, 1.5);
@@ -503,7 +502,7 @@ const DrillScene = (() => {
     const elbow = new THREE.Mesh(elbowGeo, darkMat);
     elbowPivot.add(elbow);
 
-    // Telescopic arm (伸缩臂 - dipper)
+    // Telescopic arm (浼哥缉鑷?- dipper)
     const dipperGeo = new THREE.BoxGeometry(0.4, 0.4, 2);
     const dipper = new THREE.Mesh(dipperGeo, armMat);
     dipper.position.set(0, 0, 1);
@@ -519,7 +518,7 @@ const DrillScene = (() => {
     feedPivot.rotation.x = -Math.PI / 8;
     elbowPivot.add(feedPivot);
 
-    // T-beam (T型梁)
+    // T-beam (T鍨嬫)
     const tBeamGeo = new THREE.BoxGeometry(0.6, 0.3, 0.4);
     const tBeam = new THREE.Mesh(tBeamGeo, darkMat);
     tBeam.position.set(0, 0, 0.2);
@@ -527,7 +526,7 @@ const DrillScene = (() => {
     feedPivot.add(tBeam);
     pickableParts.push(tBeam);
 
-    // Feed beam group (推进梁)
+    // Feed beam group (鎺ㄨ繘姊?
     const feedBeamGroup = new THREE.Group();
     feedBeamGroup.name = 'feedBeam';
     feedPivot.add(feedBeamGroup);
@@ -565,7 +564,7 @@ const DrillScene = (() => {
     carriage.castShadow = true;
     carriageGroup.add(carriage);
 
-    // Rock drill (凿岩机)
+    // Rock drill (鍑垮博鏈?
     const drillGeo = new THREE.CylinderGeometry(0.15, 0.12, 1.2, 12);
     const drillMat = new THREE.MeshStandardMaterial({
       color: 0x374151,
@@ -874,9 +873,9 @@ const DrillScene = (() => {
       padding: 20px;
     `;
     msg.innerHTML = `
-      <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.4;">⚙</div>
-      <div style="font-size: 15px; color: #e8eaed; margin-bottom: 8px;">3D 场景无法加载</div>
-      <div style="font-size: 12px; color: #6b7280; max-width: 300px;">当前环境不支持 WebGL 硬件加速，请使用支持 WebGL 的现代浏览器以查看 3D 仿真场景。其他功能不受影响。</div>
+      <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.4;">鈿?/div>
+      <div style="font-size: 15px; color: #e8eaed; margin-bottom: 8px;">3D 鍦烘櫙鏃犳硶鍔犺浇</div>
+      <div style="font-size: 12px; color: #6b7280; max-width: 300px;">褰撳墠鐜涓嶆敮鎸?WebGL 纭欢鍔犻€燂紝璇蜂娇鐢ㄦ敮鎸?WebGL 鐨勭幇浠ｆ祻瑙堝櫒浠ユ煡鐪?3D 浠跨湡鍦烘櫙銆傚叾浠栧姛鑳戒笉鍙楀奖鍝嶃€?/div>
     `;
     container.appendChild(msg);
   }
@@ -913,188 +912,148 @@ const DrillScene = (() => {
 Object.assign(window, { DrillScene });
 
 
-// ===== ChatPanel.jsx =====
+// ===== src/ChatPanel.jsx =====
 /* ============================================================
-   AI导师智能体对话面板
-   实训教练角色 - 围绕教学场景回答
+   AI瀵煎笀鏅鸿兘浣撳璇濋潰鏉?   瀹炶鏁欑粌瑙掕壊 - 鍥寸粫鏁欏鍦烘櫙鍥炵瓟
    ============================================================ */
 
 const TUTOR_MODELS = [
-  { id: 'qwen', name: '通义千问', shortName: 'Qwen', color: '#818cf8', keyName: 'qwenApiKey', role: '结构原理导师' },
-  { id: 'deepseek', name: 'DeepSeek', shortName: 'DeepSeek', color: '#60a5fa', keyName: 'deepseekApiKey', role: '故障排查专家' },
-  { id: 'doubao', name: '豆包', shortName: 'Doubao', color: '#a78bfa', keyName: 'doubaoApiKey', role: '操作要领教练' },
-  { id: 'kimi', name: 'Kimi', shortName: 'Kimi', color: '#22d3ee', keyName: 'kimiApiKey', role: '安全规范讲师' },
+  { id: 'qwen', name: '閫氫箟鍗冮棶', shortName: 'Qwen', color: '#818cf8', keyName: 'qwenApiKey', role: '缁撴瀯鍘熺悊瀵煎笀' },
+  { id: 'deepseek', name: 'DeepSeek', shortName: 'DeepSeek', color: '#60a5fa', keyName: 'deepseekApiKey', role: '鏁呴殰鎺掓煡涓撳' },
+  { id: 'doubao', name: '璞嗗寘', shortName: 'Doubao', color: '#a78bfa', keyName: 'doubaoApiKey', role: '鎿嶄綔瑕侀鏁欑粌' },
+  { id: 'kimi', name: 'Kimi', shortName: 'Kimi', color: '#22d3ee', keyName: 'kimiApiKey', role: '瀹夊叏瑙勮寖璁插笀' },
 ];
 
 const TUTOR_QUICK_QUESTIONS = [
-  '基本臂体结构组成？',
-  '大臂操作要领是什么？',
-  '常见故障如何排查？',
-  '四要点是什么？',
-  '光面爆破怎么操作？',
-  '安全注意事项有哪些？',
+  '鍩烘湰鑷備綋缁撴瀯缁勬垚锛?,
+  '澶ц噦鎿嶄綔瑕侀鏄粈涔堬紵',
+  '甯歌鏁呴殰濡備綍鎺掓煡锛?,
+  '鍥涜鐐规槸浠€涔堬紵',
+  '鍏夐潰鐖嗙牬鎬庝箞鎿嶄綔锛?,
+  '瀹夊叏娉ㄦ剰浜嬮」鏈夊摢浜涳紵',
 ];
 
-// 实训知识知识库
-const TRAINING_KNOWLEDGE = {
-  '一心五点': {
-    title: '一心五点 定位法',
-    content: '控制隧道中心位置和五个开挖轮廓点（拱顶点、左拱肩、右拱肩、左边墙、右边墙），确保台车定位准确。定位时先对准中心线，再调整上下高度，保证五个轮廓点均匀分布。',
-    category: '操作要领',
+// 瀹炶鐭ヨ瘑鐭ヨ瘑搴?const TRAINING_KNOWLEDGE = {
+  '涓€蹇冧簲鐐?: {
+    title: '涓€蹇冧簲鐐?瀹氫綅娉?,
+    content: '鎺у埗闅ч亾涓績浣嶇疆鍜屼簲涓紑鎸栬疆寤撶偣锛堟嫳椤剁偣銆佸乏鎷辫偐銆佸彸鎷辫偐銆佸乏杈瑰銆佸彸杈瑰锛夛紝纭繚鍙拌溅瀹氫綅鍑嗙‘銆傚畾浣嶆椂鍏堝鍑嗕腑蹇冪嚎锛屽啀璋冩暣涓婁笅楂樺害锛屼繚璇佷簲涓疆寤撶偣鍧囧寑鍒嗗竷銆?,
+    category: '鎿嶄綔瑕侀',
   },
-  '一线两端': {
-    title: '一线两端 平行法',
-    content: '台车大臂与隧道中心线平行（一线），推进梁前后端点位置准确（两端）。保证钻孔方向与隧道轴线平行，是保证钻孔质量的关键。检查方法：从侧面观察推进梁是否与隧道腰线平行。',
-    category: '操作要领',
+  '涓€绾夸袱绔?: {
+    title: '涓€绾夸袱绔?骞宠娉?,
+    content: '鍙拌溅澶ц噦涓庨毀閬撲腑蹇冪嚎骞宠锛堜竴绾匡級锛屾帹杩涙鍓嶅悗绔偣浣嶇疆鍑嗙‘锛堜袱绔級銆備繚璇侀捇瀛旀柟鍚戜笌闅ч亾杞寸嚎骞宠锛屾槸淇濊瘉閽诲瓟璐ㄩ噺鐨勫叧閿€傛鏌ユ柟娉曪細浠庝晶闈㈣瀵熸帹杩涙鏄惁涓庨毀閬撹叞绾垮钩琛屻€?,
+    category: '鎿嶄綔瑕侀',
   },
-  '一高一低': {
-    title: '一高一低 角度法',
-    content: '推进梁尾部高度（一高）决定钻孔仰角，开孔处最低位置（一低）确保钻孔起始点准确。调整时先定开孔点位置，再调整尾部高度控制钻孔角度。周边眼开孔精度直接影响光面爆破效果。',
-    category: '操作要领',
+  '涓€楂樹竴浣?: {
+    title: '涓€楂樹竴浣?瑙掑害娉?,
+    content: '鎺ㄨ繘姊佸熬閮ㄩ珮搴︼紙涓€楂橈級鍐冲畾閽诲瓟浠拌锛屽紑瀛斿鏈€浣庝綅缃紙涓€浣庯級纭繚閽诲瓟璧峰鐐瑰噯纭€傝皟鏁存椂鍏堝畾寮€瀛旂偣浣嶇疆锛屽啀璋冩暣灏鹃儴楂樺害鎺у埗閽诲瓟瑙掑害銆傚懆杈圭溂寮€瀛旂簿搴︾洿鎺ュ奖鍝嶅厜闈㈢垎鐮存晥鏋溿€?,
+    category: '鎿嶄綔瑕侀',
   },
-  '一快一慢': {
-    title: '一快一慢 调节法',
-    content: '硬岩慢推进、高冲击；软岩快推进、低冲击。根据围岩情况灵活调整冲击与推进速度的匹配关系。硬岩（花岗岩、石英岩）：冲击功率29~31kW，推进力22~23kN；软岩（泥岩、页岩）：冲击功率22~25kW，推进力16~18kN。',
-    category: '操作要领',
+  '涓€蹇竴鎱?: {
+    title: '涓€蹇竴鎱?璋冭妭娉?,
+    content: '纭博鎱㈡帹杩涖€侀珮鍐插嚮锛涜蒋宀╁揩鎺ㄨ繘銆佷綆鍐插嚮銆傛牴鎹洿宀╂儏鍐电伒娲昏皟鏁村啿鍑讳笌鎺ㄨ繘閫熷害鐨勫尮閰嶅叧绯汇€傜‖宀╋紙鑺卞矖宀┿€佺煶鑻卞博锛夛細鍐插嚮鍔熺巼29~31kW锛屾帹杩涘姏22~23kN锛涜蒋宀╋紙娉ュ博銆侀〉宀╋級锛氬啿鍑诲姛鐜?2~25kW锛屾帹杩涘姏16~18kN銆?,
+    category: '鎿嶄綔瑕侀',
   },
-  '大臂连接座': {
-    title: '大臂连接座',
-    content: '钻臂与主机的连接基础，承受钻臂作业时的全部反力与力矩。采用高强度铸钢件，是整个钻臂的"根基"。连接方式：胀销连接2处 + 螺栓连接8处。',
-    category: '结构原理',
+  '澶ц噦杩炴帴搴?: {
+    title: '澶ц噦杩炴帴搴?,
+    content: '閽昏噦涓庝富鏈虹殑杩炴帴鍩虹锛屾壙鍙楅捇鑷備綔涓氭椂鐨勫叏閮ㄥ弽鍔涗笌鍔涚煩銆傞噰鐢ㄩ珮寮哄害閾搁挗浠讹紝鏄暣涓捇鑷傜殑"鏍瑰熀"銆傝繛鎺ユ柟寮忥細鑳€閿€杩炴帴2澶?+ 铻烘爴杩炴帴8澶勩€?,
+    category: '缁撴瀯鍘熺悊',
   },
-  '基本臂体': {
-    title: '基本臂体（大臂）',
-    content: '钻臂主承载结构，采用高强度钢焊接箱型结构。可实现俯仰（+65°/-30°）、左右摆动（±45°）、伸缩三种运动。装配方式：胀销连接6处、螺栓连接2处、角度传感器2个（竖直角度+水平角度）、机械限位。',
-    category: '结构原理',
+  '鍩烘湰鑷備綋': {
+    title: '鍩烘湰鑷備綋锛堝ぇ鑷傦級',
+    content: '閽昏噦涓绘壙杞界粨鏋勶紝閲囩敤楂樺己搴﹂挗鐒婃帴绠卞瀷缁撴瀯銆傚彲瀹炵幇淇话锛?65掳/-30掳锛夈€佸乏鍙虫憜鍔紙卤45掳锛夈€佷几缂╀笁绉嶈繍鍔ㄣ€傝閰嶆柟寮忥細鑳€閿€杩炴帴6澶勩€佽灪鏍撹繛鎺?澶勩€佽搴︿紶鎰熷櫒2涓紙绔栫洿瑙掑害+姘村钩瑙掑害锛夈€佹満姊伴檺浣嶃€?,
+    category: '缁撴瀯鍘熺悊',
   },
-  '大臂伸缩油缸': {
-    title: '大臂伸缩油缸',
-    content: '驱动伸缩臂在基本臂体内伸缩的执行元件，最大伸缩量≥2.5m。采用双作用液压油缸，内置位移传感器实时反馈伸缩量，配合液压锁实现任意位置锁定。',
-    category: '结构原理',
+  '澶ц噦浼哥缉娌圭几': {
+    title: '澶ц噦浼哥缉娌圭几',
+    content: '椹卞姩浼哥缉鑷傚湪鍩烘湰鑷備綋鍐呬几缂╃殑鎵ц鍏冧欢锛屾渶澶т几缂╅噺鈮?.5m銆傞噰鐢ㄥ弻浣滅敤娑插帇娌圭几锛屽唴缃綅绉讳紶鎰熷櫒瀹炴椂鍙嶉浼哥缉閲忥紝閰嶅悎娑插帇閿佸疄鐜颁换鎰忎綅缃攣瀹氥€?,
+    category: '缁撴瀯鍘熺悊',
   },
-  '推进梁': {
-    title: '推进梁',
-    content: '凿岩机的导轨与推进机构，总长≥7000mm，推进补偿1800mm，钻臂补偿1600mm。通过液压马达驱动链条带动凿岩机沿导轨运动。推进翻转角度±180°。',
-    category: '结构原理',
+  '鎺ㄨ繘姊?: {
+    title: '鎺ㄨ繘姊?,
+    content: '鍑垮博鏈虹殑瀵艰建涓庢帹杩涙満鏋勶紝鎬婚暱鈮?000mm锛屾帹杩涜ˉ鍋?800mm锛岄捇鑷傝ˉ鍋?600mm銆傞€氳繃娑插帇椹揪椹卞姩閾炬潯甯﹀姩鍑垮博鏈烘部瀵艰建杩愬姩銆傛帹杩涚炕杞搴β?80掳銆?,
+    category: '缁撴瀯鍘熺悊',
   },
-  '凿岩机': {
-    title: '凿岩机',
-    content: '钻孔作业核心部件，冲击功率27~31kW，冲击频率≥4300次/min（约70Hz），旋转扭矩≥650N·m。采用液压驱动，冲击机构与旋转机构独立控制，可根据岩性调整参数匹配。',
-    category: '结构原理',
+  '鍑垮博鏈?: {
+    title: '鍑垮博鏈?,
+    content: '閽诲瓟浣滀笟鏍稿績閮ㄤ欢锛屽啿鍑诲姛鐜?7~31kW锛屽啿鍑婚鐜団墺4300娆?min锛堢害70Hz锛夛紝鏃嬭浆鎵煩鈮?50N路m銆傞噰鐢ㄦ恫鍘嬮┍鍔紝鍐插嚮鏈烘瀯涓庢棆杞満鏋勭嫭绔嬫帶鍒讹紝鍙牴鎹博鎬ц皟鏁村弬鏁板尮閰嶃€?,
+    category: '缁撴瀯鍘熺悊',
   },
-  '卡钻': {
-    title: '卡钻故障排查',
-    content: '【现象】钻杆无法推进或回退，伴有异响。\n【原因】①岩石破碎带卡钻 ②钻杆弯曲 ③孔壁掉块\n【处理方法】\n1. 立即停止推进，保持旋转\n2. 缓慢正反转活动钻杆\n3. 配合冲击轻推轻拉\n4. 严禁强行拔杆\n5. 严重时可反向钻深2~3cm再尝试退出',
-    category: '故障排查',
+  '鍗￠捇': {
+    title: '鍗￠捇鏁呴殰鎺掓煡',
+    content: '銆愮幇璞°€戦捇鏉嗘棤娉曟帹杩涙垨鍥為€€锛屼即鏈夊紓鍝嶃€俓n銆愬師鍥犮€戔憼宀╃煶鐮寸甯﹀崱閽?鈶￠捇鏉嗗集鏇?鈶㈠瓟澹佹帀鍧梊n銆愬鐞嗘柟娉曘€慭n1. 绔嬪嵆鍋滄鎺ㄨ繘锛屼繚鎸佹棆杞琝n2. 缂撴參姝ｅ弽杞椿鍔ㄩ捇鏉哱n3. 閰嶅悎鍐插嚮杞绘帹杞绘媺\n4. 涓ョ寮鸿鎷旀潌\n5. 涓ラ噸鏃跺彲鍙嶅悜閽绘繁2~3cm鍐嶅皾璇曢€€鍑?,
+    category: '鏁呴殰鎺掓煡',
   },
-  '断钎': {
-    title: '断钎故障排查',
-    content: '【现象】冲击声突变，钻进速度骤降。\n【原因】①钻杆疲劳裂纹 ②硬岩冲击过大 ③连接螺纹磨损\n【处理】\n1. 立即停机\n2. 用专用工具取出断杆\n3. 检查螺纹、更换新钻杆\n4. 硬岩段适当降低冲击频率',
-    category: '故障排查',
+  '鏂拵': {
+    title: '鏂拵鏁呴殰鎺掓煡',
+    content: '銆愮幇璞°€戝啿鍑诲０绐佸彉锛岄捇杩涢€熷害楠ら檷銆俓n銆愬師鍥犮€戔憼閽绘潌鐤插姵瑁傜汗 鈶＄‖宀╁啿鍑昏繃澶?鈶㈣繛鎺ヨ灪绾圭（鎹焅n銆愬鐞嗐€慭n1. 绔嬪嵆鍋滄満\n2. 鐢ㄤ笓鐢ㄥ伐鍏峰彇鍑烘柇鏉哱n3. 妫€鏌ヨ灪绾广€佹洿鎹㈡柊閽绘潌\n4. 纭博娈甸€傚綋闄嶄綆鍐插嚮棰戠巼',
+    category: '鏁呴殰鎺掓煡',
   },
 };
 
-// 模拟导师回复
+// 妯℃嫙瀵煎笀鍥炲
 const TUTOR_RESPONSES = {
-  qwen: `同学们好！我是结构原理导师通义千问。
+  qwen: `鍚屽浠ソ锛佹垜鏄粨鏋勫師鐞嗗甯堥€氫箟鍗冮棶銆?
+鍏充簬浣犳彁鍑虹殑闂锛屼粠**缁撴瀯鍘熺悊**瑙掑害鏉ュ垎鏋愶細
 
-关于你提出的问题，从**结构原理**角度来分析：
+涓夎噦鍑垮博鍙拌溅鐨勯捇鑷傜郴缁熸槸涓€涓吀鍨嬬殑澶氳嚜鐢卞害骞惰仈鏈烘瀯锛屾瘡涓捇鑷傛湁5涓繍鍔ㄨ嚜鐢卞害锛?1. 澶ц噦淇话锛?65掳/-30掳锛?2. 澶ц噦鎽嗗姩锛埪?5掳锛?3. 閽昏噦浼哥缉锛堚墺2.5m锛?4. 鎺ㄨ繘姊佷刊浠?5. 鎺ㄨ繘姊佺炕杞紙卤180掳锛?
+**鍏抽敭鐭ヨ瘑鐐癸細鍩烘湰鑷傝閰嶆柟寮?*
+- 鑳€閿€杩炴帴 6澶勶細鎵垮彈寰勫悜杞借嵎锛屽畾浣嶇簿搴﹂珮
+- 铻烘爴杩炴帴 2澶勶細鎵垮彈杞村悜杞借嵎锛屼究浜庢媶瑁?- 瑙掑害浼犳劅鍣?2涓細澶ц噦绔栫洿瑙掑害浼犳劅鍣?+ 澶ц噦姘村钩瑙掑害浼犳劅鍣?- 鏈烘闄愪綅锛氶槻姝㈣秴绋嬭繍鍔?
+瀹氫綅绮惧害鍙揪瀛斾綅璇樊<卤1.8cm锛岃搴﹀亸宸?0.8掳鏃惰嚜鍔ㄨЕ鍙慞ID闂幆绾犲亸銆?
+鏈変粈涔堢粨鏋勬柟闈㈢殑闂锛屾杩庨殢鏃舵彁闂紒`,
 
-三臂凿岩台车的钻臂系统是一个典型的多自由度并联机构，每个钻臂有5个运动自由度：
-1. 大臂俯仰（+65°/-30°）
-2. 大臂摆动（±45°）
-3. 钻臂伸缩（≥2.5m）
-4. 推进梁俯仰
-5. 推进梁翻转（±180°）
+  deepseek: `澶у濂斤紝鎴戞槸鏁呴殰鎺掓煡涓撳DeepSeek銆?
+浠?*鏁呴殰璇婃柇**瑙掑害鏉ュ垎鏋愯繖涓棶棰橈細
 
-**关键知识点：基本臂装配方式**
-- 胀销连接 6处：承受径向载荷，定位精度高
-- 螺栓连接 2处：承受轴向载荷，便于拆装
-- 角度传感器 2个：大臂竖直角度传感器 + 大臂水平角度传感器
-- 机械限位：防止超程运动
+銆愬父瑙佹晠闅?TOP3銆?
+**1. 鍗￠捇锛堝彂鐢熺巼绾?5%锛?*
+鐥囩姸锛氶捇鏉嗘棤娉曡繘閫€銆佸紓鍝?鍘熷洜锛氱牬纰庡甫銆佸瓟澹佹帀鍧椼€侀捇鏉嗗集鏇?澶勭悊锛氬仠鎺ㄤ繚杞啋姝ｅ弽杞椿鍔ㄢ啋閰嶅悎鍐插嚮杞绘媺鈫掍弗绂佺‖鎷?
+**2. 鍐插嚮鏃犲姏锛堝彂鐢熺巼绾?5%锛?*
+鐥囩姸锛氶捇杩涢€熷害鏄庢樉涓嬮檷
+鍘熷洜锛氣憼娑插帇娌逛笉瓒?鈶″啿鍑绘椿濉炵（鎹?鈶㈣搫鑳藉櫒姘皵鍘嬪姏涓嶈冻
+妫€鏌ワ細鍏堟煡娌逛綅鈫掑啀鏌ユ补鍘嬧啋鏈€鍚庢媶妫€鍐插嚮鏈烘瀯
 
-定位精度可达孔位误差<±1.8cm，角度偏差>0.8°时自动触发PID闭环纠偏。
+**3. 鍥炶浆鏃犲姏锛堝彂鐢熺巼绾?0%锛?*
+鐥囩姸锛氶捇鏉嗕笉杞垨杞€熸參
+鍘熷洜锛氣憼鍥炶浆椹揪纾ㄦ崯 鈶″噺閫熺榻胯疆鎹熷潖 鈶㈠洖杞帇鍔涗笉瓒?鎺掓煡锛氭祴鍥炶浆鍘嬪姏鈫掑惉鍑忛€熺澹伴煶鈫掓媶妫€椹揪
 
-有什么结构方面的问题，欢迎随时提问！`,
+銆愬彛璇€銆戝厛鐪嬭〃銆佸啀鍚０銆佹寜搴忔帓鏌ヤ笉杩斿伐銆?鏈夊叿浣撴晠闅滅幇璞″彲浠ュ憡璇夋垜锛屾垜鏉ュ府浣犲垎鏋愶紒`,
 
-  deepseek: `大家好，我是故障排查专家DeepSeek。
+  doubao: `鍚屽浠ソ鍛€锝炴垜鏄搷浣滆棰嗘暀缁冭眴鍖咃紒
 
-从**故障诊断**角度来分析这个问题：
+鍏充簬**鎿嶄綔瑕侀**锛屾垜鏉ョ粰浣犺缁嗚瑙ｏ細
 
-【常见故障 TOP3】
+馃幆 **瀹炶鎿嶄綔鍥涜鐐癸紙蹇呰儗锛侊級**
 
-**1. 卡钻（发生率约35%）**
-症状：钻杆无法进退、异响
-原因：破碎带、孔壁掉块、钻杆弯曲
-处理：停推保转→正反转活动→配合冲击轻拉→严禁硬拔
+**鈶?涓€蹇冧簲鐐?* 鈥?瀹氫綅娉?瀵瑰噯闅ч亾涓績锛屾帶鍒舵嫳椤躲€佸乏鍙虫嫳鑲┿€佸乏鍙宠竟澧欎簲涓疆寤撶偣銆?
+**鈶?涓€绾夸袱绔?* 鈥?骞宠娉?澶ц噦涓庨毀閬撲腑蹇冪嚎骞宠锛堜竴绾匡級锛屾帹杩涙鍓嶅悗绔綅缃噯纭紙涓ょ锛夈€?
+**鈶?涓€楂樹竴浣?* 鈥?瑙掑害娉?鎺ㄨ繘姊佸熬閮ㄩ珮搴︼紙涓€楂橈級鍐冲畾浠拌锛屽紑瀛斿浣嶇疆锛堜竴浣庯級鍐冲畾璧风偣銆?
+**鈶?涓€蹇竴鎱?* 鈥?璋冭妭娉?纭博鎱㈡帹楂樺啿鍑伙紝杞博蹇帹浣庡啿鍑伙紝鐏垫椿鍖归厤鏄叧閿€?
+馃憜 **鎿嶄綔灏忔妧宸?*
+- 寮€瀛旈樁娈碉細浣庡啿鍑汇€佹參鎺ㄨ繘锛岀ǔ涓轰富
+- 姝ｅ父閽昏繘锛氬叏鍔熺巼銆佺ǔ鎺ㄨ繘锛屾晥鐜囦紭鍏?- 鍒板瓟搴曞墠锛氭彁鍓嶉檷閫燂紝闃叉瓒呴捇
+- 閫€鏉嗭細淇濇寔鏃嬭浆锛岄€熷害鏄捇杩涚殑1.5~2鍊?
+鎿嶄綔涓€瀹氳鑳嗗ぇ蹇冪粏锛屽畨鍏ㄧ涓€锛佹湁鎿嶄綔涓婄殑闂灏界闂垜锝瀈,
 
-**2. 冲击无力（发生率约25%）**
-症状：钻进速度明显下降
-原因：①液压油不足 ②冲击活塞磨损 ③蓄能器氮气压力不足
-检查：先查油位→再查油压→最后拆检冲击机构
+  kimi: `鍚屽浠ソ锛屾垜鏄畨鍏ㄨ鑼冭甯圞imi銆?
+浠?*瀹夊叏瑙勮寖**瑙掑害锛屾垜浠繀椤荤墷璁帮細
 
-**3. 回转无力（发生率约20%）**
-症状：钻杆不转或转速慢
-原因：①回转马达磨损 ②减速箱齿轮损坏 ③回转压力不足
-排查：测回转压力→听减速箱声音→拆检马达
+鈿狅笍 **涓夎噦鍑垮博鍙拌溅浣滀笟瀹夊叏瀹堝垯**
 
-【口诀】先看表、再听声、按序排查不返工。
-有具体故障现象可以告诉我，我来帮你分析！`,
-
-  doubao: `同学们好呀～我是操作要领教练豆包！
-
-关于**操作要领**，我来给你详细讲解：
-
-🎯 **实训操作四要点（必背！）**
-
-**① 一心五点** — 定位法
-对准隧道中心，控制拱顶、左右拱肩、左右边墙五个轮廓点。
-
-**② 一线两端** — 平行法
-大臂与隧道中心线平行（一线），推进梁前后端位置准确（两端）。
-
-**③ 一高一低** — 角度法
-推进梁尾部高度（一高）决定仰角，开孔处位置（一低）决定起点。
-
-**④ 一快一慢** — 调节法
-硬岩慢推高冲击，软岩快推低冲击，灵活匹配是关键。
-
-👆 **操作小技巧**
-- 开孔阶段：低冲击、慢推进，稳为主
-- 正常钻进：全功率、稳推进，效率优先
-- 到孔底前：提前降速，防止超钻
-- 退杆：保持旋转，速度是钻进的1.5~2倍
-
-操作一定要胆大心细，安全第一！有操作上的问题尽管问我～`,
-
-  kimi: `同学们好，我是安全规范讲师Kimi。
-
-从**安全规范**角度，我们必须牢记：
-
-⚠️ **三臂凿岩台车作业安全守则**
-
-**【作业前】三检查**
-1. 检查液压系统：油位、油温、有无渗漏
-2. 检查钻具：钻杆磨损、钻头磨损、螺纹状态
-3. 检查安全装置：急停按钮、限位开关、防护装置
-
-**【作业中】五不准**
-1. 不准在钻臂下方站人
-2. 不准在钻孔时正对孔口观察
-3. 不准带压拆卸液压管路
-4. 不准超范围作业（超角度、超行程）
-5. 不准在故障未排除时强行作业
-
-**【作业后】三确认**
-1. 确认钻臂收拢到安全位置
-2. 确认各系统压力已卸荷
-3. 确认电源、水源关闭
-
-**【紧急情况处置】**
-遇卡钻、断钎、管路爆裂等紧急情况：
-① 立即按下急停 → ② 撤离危险区域 → ③ 报告班组长
-
-安全永远是第一位的，每一次操作都要遵守规范！`,
+**銆愪綔涓氬墠銆戜笁妫€鏌?*
+1. 妫€鏌ユ恫鍘嬬郴缁燂細娌逛綅銆佹补娓┿€佹湁鏃犳笚婕?2. 妫€鏌ラ捇鍏凤細閽绘潌纾ㄦ崯銆侀捇澶寸（鎹熴€佽灪绾圭姸鎬?3. 妫€鏌ュ畨鍏ㄨ缃細鎬ュ仠鎸夐挳銆侀檺浣嶅紑鍏炽€侀槻鎶よ缃?
+**銆愪綔涓氫腑銆戜簲涓嶅噯**
+1. 涓嶅噯鍦ㄩ捇鑷備笅鏂圭珯浜?2. 涓嶅噯鍦ㄩ捇瀛旀椂姝ｅ瀛斿彛瑙傚療
+3. 涓嶅噯甯﹀帇鎷嗗嵏娑插帇绠¤矾
+4. 涓嶅噯瓒呰寖鍥翠綔涓氾紙瓒呰搴︺€佽秴琛岀▼锛?5. 涓嶅噯鍦ㄦ晠闅滄湭鎺掗櫎鏃跺己琛屼綔涓?
+**銆愪綔涓氬悗銆戜笁纭**
+1. 纭閽昏噦鏀舵嫝鍒板畨鍏ㄤ綅缃?2. 纭鍚勭郴缁熷帇鍔涘凡鍗歌嵎
+3. 纭鐢垫簮銆佹按婧愬叧闂?
+**銆愮揣鎬ユ儏鍐靛缃€?*
+閬囧崱閽汇€佹柇閽庛€佺璺垎瑁傜瓑绱ф€ユ儏鍐碉細
+鈶?绔嬪嵆鎸変笅鎬ュ仠 鈫?鈶?鎾ょ鍗遍櫓鍖哄煙 鈫?鈶?鎶ュ憡鐝粍闀?
+瀹夊叏姘歌繙鏄涓€浣嶇殑锛屾瘡涓€娆℃搷浣滈兘瑕侀伒瀹堣鑼冿紒`,
 };
 
 function ChatPanel({
@@ -1145,8 +1104,8 @@ function ChatPanel({
   const explainPart = (part) => {
     const knowledge = TRAINING_KNOWLEDGE[part.partId] || TRAINING_KNOWLEDGE[part.metadata.name];
     const response = knowledge
-      ? `好的，我来给你讲解**${part.metadata.name}**：\n\n${knowledge.content}\n\n**连接方式**：${part.metadata.connection}\n**传感器**：${part.metadata.sensors}`
-      : `你点击了**${part.metadata.name}**。\n\n${part.metadata.function}\n\n连接方式：${part.metadata.connection}\n传感器：${part.metadata.sensors}`;
+      ? `濂界殑锛屾垜鏉ョ粰浣犺瑙?*${part.metadata.name}**锛歕n\n${knowledge.content}\n\n**杩炴帴鏂瑰紡**锛?{part.metadata.connection}\n**浼犳劅鍣?*锛?{part.metadata.sensors}`
+      : `浣犵偣鍑讳簡**${part.metadata.name}**銆俓n\n${part.metadata.function}\n\n杩炴帴鏂瑰紡锛?{part.metadata.connection}\n浼犳劅鍣細${part.metadata.sensors}`;
 
     const msg = {
       id: Date.now() + Math.random(),
@@ -1185,14 +1144,14 @@ function ChatPanel({
   };
 
   const simulateTutorResponse = async (modelId, question) => {
-    let baseResponse = TUTOR_RESPONSES[modelId] || '暂无相关教学内容。';
+    let baseResponse = TUTOR_RESPONSES[modelId] || '鏆傛棤鐩稿叧鏁欏鍐呭銆?;
 
     // Check for keyword matches in knowledge base
     let knowledgeInsert = '';
     Object.keys(TRAINING_KNOWLEDGE).forEach(key => {
       if (question.includes(key)) {
         const k = TRAINING_KNOWLEDGE[key];
-        knowledgeInsert += `\n\n📚 **${k.title}**\n${k.content}`;
+        knowledgeInsert += `\n\n馃摎 **${k.title}**\n${k.content}`;
       }
     });
 
@@ -1239,7 +1198,7 @@ function ChatPanel({
       <div className="panel-header">
         <div className="panel-title">
           <div className="panel-title-icon"></div>
-          AI 实训导师
+          AI 瀹炶瀵煎笀
         </div>
         <button
           className="chat-settings-btn"
@@ -1249,7 +1208,7 @@ function ChatPanel({
             <circle cx="12" cy="12" r="3" />
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
           </svg>
-          设置
+          璁剧疆
         </button>
       </div>
 
@@ -1270,9 +1229,9 @@ function ChatPanel({
           className={`chat-tab ${currentTab === 'multi' ? 'multi' : ''}`}
           onClick={() => setCurrentTab('multi')}
           style={{ flex: '0 0 40px' }}
-          title="四导师联合授课"
+          title="鍥涘甯堣仈鍚堟巿璇?
         >
-          联授
+          鑱旀巿
         </div>
       </div>
 
@@ -1288,9 +1247,9 @@ function ChatPanel({
           alignItems: 'center',
           gap: '6px',
         }}>
-          <span style={{ fontSize: '14px' }}>👨‍🏫</span>
+          <span style={{ fontSize: '14px' }}>馃懆鈥嶐煆?/span>
           <span style={{ color: 'var(--accent-amber)', fontWeight: '600' }}>{currentModel.name}</span>
-          · {currentModel.role}
+          路 {currentModel.role}
         </div>
       )}
       {currentTab === 'multi' && (
@@ -1304,15 +1263,14 @@ function ChatPanel({
           alignItems: 'center',
           gap: '6px',
         }}>
-          <span style={{ fontSize: '14px' }}>🎓</span>
-          四位导师联合授课 · 结构/操作/故障/安全全方位讲解
-        </div>
+          <span style={{ fontSize: '14px' }}>馃帗</span>
+          鍥涗綅瀵煎笀鑱斿悎鎺堣 路 缁撴瀯/鎿嶄綔/鏁呴殰/瀹夊叏鍏ㄦ柟浣嶈瑙?        </div>
       )}
 
       {/* Unconfigured hint */}
       {currentTab !== 'multi' && !isConfigured(currentTab) && (
         <div className="unconfigured-hint" style={{ margin: '8px 10px 0' }}>
-          演示模式 · 配置 API Key 后可真实调用
+          婕旂ず妯″紡 路 閰嶇疆 API Key 鍚庡彲鐪熷疄璋冪敤
         </div>
       )}
 
@@ -1320,12 +1278,11 @@ function ChatPanel({
       <div className="chat-messages">
         {messages.length === 0 && (
           <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '30px 10px', fontSize: '11px' }}>
-            <div style={{ fontSize: '36px', marginBottom: '10px', opacity: '0.3' }}>👨‍🏫</div>
-            <div style={{ color: 'var(--text-secondary)', marginBottom: '6px' }}>欢迎来到仿真实训课堂</div>
+            <div style={{ fontSize: '36px', marginBottom: '10px', opacity: '0.3' }}>馃懆鈥嶐煆?/div>
+            <div style={{ color: 'var(--text-secondary)', marginBottom: '6px' }}>娆㈣繋鏉ュ埌浠跨湡瀹炶璇惧爞</div>
             <div style={{ fontSize: '10px', lineHeight: '1.6' }}>
-              点击3D场景中的任意部件<br />
-              AI导师会自动讲解对应知识
-            </div>
+              鐐瑰嚮3D鍦烘櫙涓殑浠绘剰閮ㄤ欢<br />
+              AI瀵煎笀浼氳嚜鍔ㄨ瑙ｅ搴旂煡璇?            </div>
           </div>
         )}
 
@@ -1339,14 +1296,14 @@ function ChatPanel({
               <div className="chat-msg-header">
                 <span className={`msg-model-tag ${msg.isTutor ? 'tutor-badge' : ''}`}>
                   {TUTOR_MODELS.find(m => m.id === msg.model)?.shortName || 'AI'}
-                  {msg.isTutor && ' · 导师'}
+                  {msg.isTutor && ' 路 瀵煎笀'}
                 </span>
                 {!isConfigured(msg.model) && (
-                  <span style={{ color: 'var(--text-muted)', fontSize: '9px' }}>演示</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '9px' }}>婕旂ず</span>
                 )}
               </div>
               <div className="chat-msg-bubble" style={{ whiteSpace: 'pre-wrap' }}>
-                {msg.content || <span className="pulse">讲解中...</span>}
+                {msg.content || <span className="pulse">璁茶В涓?..</span>}
               </div>
             </div>
           )
@@ -1366,7 +1323,7 @@ function ChatPanel({
         <div className="chat-input-row" style={{ marginTop: '8px' }}>
           <textarea
             className="chat-input"
-            placeholder="向AI导师提问..."
+            placeholder="鍚慉I瀵煎笀鎻愰棶..."
             value={inputText}
             onChange={e => setInputText(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -1378,7 +1335,7 @@ function ChatPanel({
             onClick={handleSend}
             disabled={isLoading || !inputText.trim()}
           >
-            提问
+            鎻愰棶
           </button>
         </div>
       </div>
@@ -1414,8 +1371,8 @@ function SettingsModal({ apiKeys, setApiKeys, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <div className="modal-title">API Key 配置</div>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <div className="modal-title">API Key 閰嶇疆</div>
+          <button className="modal-close" onClick={onClose}>脳</button>
         </div>
         <div className="modal-body">
           <div style={{
@@ -1429,11 +1386,11 @@ function SettingsModal({ apiKeys, setApiKeys, onClose }) {
             lineHeight: '1.5',
           }}>
             <div style={{ fontWeight: '600', color: 'var(--accent-purple)', marginBottom: '4px' }}>
-              👨‍🏫 四位AI导师分工
+              馃懆鈥嶐煆?鍥涗綅AI瀵煎笀鍒嗗伐
             </div>
             {TUTOR_MODELS.map(m => (
               <div key={m.id} style={{ fontSize: '10px', marginTop: '2px' }}>
-                · <span style={{ color: m.color, fontWeight: '600' }}>{m.name}</span>：{m.role}
+                路 <span style={{ color: m.color, fontWeight: '600' }}>{m.name}</span>锛歿m.role}
               </div>
             ))}
           </div>
@@ -1450,18 +1407,18 @@ function SettingsModal({ apiKeys, setApiKeys, onClose }) {
               <input
                 type="password"
                 className="api-key-input"
-                placeholder={`输入 ${model.name} 的 API Key`}
+                placeholder={`杈撳叆 ${model.name} 鐨?API Key`}
                 value={localKeys[model.keyName] || ''}
                 onChange={e => handleChange(model.keyName, e.target.value)}
               />
               <div className="api-hint">
-                仅保存在本地浏览器，配置后可真实调用模型API
+                浠呬繚瀛樺湪鏈湴娴忚鍣紝閰嶇疆鍚庡彲鐪熷疄璋冪敤妯″瀷API
               </div>
             </div>
           ))}
           <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-            <button className="sim-btn" onClick={onClose} style={{ flex: 1 }}>取消</button>
-            <button className="sim-btn primary" onClick={handleSave} style={{ flex: 1 }}>保存配置</button>
+            <button className="sim-btn" onClick={onClose} style={{ flex: 1 }}>鍙栨秷</button>
+            <button className="sim-btn primary" onClick={handleSave} style={{ flex: 1 }}>淇濆瓨閰嶇疆</button>
           </div>
         </div>
       </div>
@@ -1478,36 +1435,36 @@ Object.assign(window, {
 });
 
 
-// ===== ControlPanel.jsx =====
+// ===== src/ControlPanel.jsx =====
 /* ============================================================
-   参数化仿真控制面板 + 视图模式切换
+   鍙傛暟鍖栦豢鐪熸帶鍒堕潰鏉?+ 瑙嗗浘妯″紡鍒囨崲
    ============================================================ */
 
 const ROCK_GRADES = [
-  { value: 1, label: 'Ⅰ级（极硬岩）', factor: 0.5 },
-  { value: 2, label: 'Ⅱ级（硬岩）', factor: 0.7 },
-  { value: 3, label: 'Ⅲ级（中硬岩）', factor: 1.0 },
-  { value: 4, label: 'Ⅳ级（软岩）', factor: 1.4 },
-  { value: 5, label: 'Ⅴ级（极软岩）', factor: 2.0 },
+  { value: 1, label: '鈪犵骇锛堟瀬纭博锛?, factor: 0.5 },
+  { value: 2, label: '鈪＄骇锛堢‖宀╋級', factor: 0.7 },
+  { value: 3, label: '鈪㈢骇锛堜腑纭博锛?, factor: 1.0 },
+  { value: 4, label: '鈪ｇ骇锛堣蒋宀╋級', factor: 1.4 },
+  { value: 5, label: '鈪ょ骇锛堟瀬杞博锛?, factor: 2.0 },
 ];
 
 const VIEW_MODES = [
-  { id: 'normal', label: '整体视图', icon: '🏗' },
-  { id: 'explode', label: '结构拆解', icon: '💥' },
-  { id: 'console', label: '操作台', icon: '🎛' },
+  { id: 'normal', label: '鏁翠綋瑙嗗浘', icon: '馃彈' },
+  { id: 'explode', label: '缁撴瀯鎷嗚В', icon: '馃挜' },
+  { id: 'console', label: '鎿嶄綔鍙?, icon: '馃帥' },
 ];
 
 const PARTS_LIST = [
-  { id: 'chassis', name: '轮式底盘', category: '行走系统' },
-  { id: 'cabin', name: '操作驾驶室', category: '操控系统' },
-  { id: 'baseJoint', name: '大臂连接座', category: '钻臂系统' },
-  { id: 'boom', name: '基本臂体（大臂）', category: '钻臂系统' },
-  { id: 'cylinder', name: '大臂伸缩油缸', category: '液压系统' },
-  { id: 'telescopicArm', name: '伸缩臂', category: '钻臂系统' },
-  { id: 'tBeam', name: 'T型梁（翻转架）', category: '钻臂系统' },
-  { id: 'feedBeam', name: '推进梁', category: '钻臂系统' },
-  { id: 'rockDrill', name: '凿岩机', category: '工作装置' },
-  { id: 'drillRod', name: '钻杆与钻头', category: '工作装置' },
+  { id: 'chassis', name: '杞紡搴曠洏', category: '琛岃蛋绯荤粺' },
+  { id: 'cabin', name: '鎿嶄綔椹鹃┒瀹?, category: '鎿嶆帶绯荤粺' },
+  { id: 'baseJoint', name: '澶ц噦杩炴帴搴?, category: '閽昏噦绯荤粺' },
+  { id: 'boom', name: '鍩烘湰鑷備綋锛堝ぇ鑷傦級', category: '閽昏噦绯荤粺' },
+  { id: 'cylinder', name: '澶ц噦浼哥缉娌圭几', category: '娑插帇绯荤粺' },
+  { id: 'telescopicArm', name: '浼哥缉鑷?, category: '閽昏噦绯荤粺' },
+  { id: 'tBeam', name: 'T鍨嬫锛堢炕杞灦锛?, category: '閽昏噦绯荤粺' },
+  { id: 'feedBeam', name: '鎺ㄨ繘姊?, category: '閽昏噦绯荤粺' },
+  { id: 'rockDrill', name: '鍑垮博鏈?, category: '宸ヤ綔瑁呯疆' },
+  { id: 'drillRod', name: '閽绘潌涓庨捇澶?, category: '宸ヤ綔瑁呯疆' },
 ];
 
 function ControlPanel({
@@ -1567,10 +1524,10 @@ function ControlPanel({
 
   const getStatusLabel = (status) => {
     const map = {
-      idle: '待机',
-      positioning: '定位中',
-      drilling: '钻孔中',
-      returning: '回程中',
+      idle: '寰呮満',
+      positioning: '瀹氫綅涓?,
+      drilling: '閽诲瓟涓?,
+      returning: '鍥炵▼涓?,
     };
     return map[status] || status;
   };
@@ -1580,8 +1537,7 @@ function ControlPanel({
       <div className="panel-header">
         <div className="panel-title">
           <div className="panel-title-icon"></div>
-          实训控制台
-        </div>
+          瀹炶鎺у埗鍙?        </div>
       </div>
 
       {/* View mode tabs */}
@@ -1601,12 +1557,12 @@ function ControlPanel({
         {/* Normal/Explode mode: drill params */}
         {viewMode !== 'console' && (
           <>
-            {/* 钻臂状态 */}
+            {/* 閽昏噦鐘舵€?*/}
             <div className="control-group">
-              <div className="control-group-title">钻臂状态</div>
+              <div className="control-group-title">閽昏噦鐘舵€?/div>
               <div className="arm-status-grid">
                 <div className="arm-status-card left">
-                  <div className="arm-status-name">1号臂（左）</div>
+                  <div className="arm-status-name">1鍙疯噦锛堝乏锛?/div>
                   <div className={`arm-status-state ${drillState.left.status}`}>
                     {getStatusLabel(drillState.left.status)}
                   </div>
@@ -1615,7 +1571,7 @@ function ControlPanel({
                   </div>
                 </div>
                 <div className="arm-status-card center">
-                  <div className="arm-status-name">2号臂（中）</div>
+                  <div className="arm-status-name">2鍙疯噦锛堜腑锛?/div>
                   <div className={`arm-status-state ${drillState.center.status}`}>
                     {getStatusLabel(drillState.center.status)}
                   </div>
@@ -1624,7 +1580,7 @@ function ControlPanel({
                   </div>
                 </div>
                 <div className="arm-status-card right">
-                  <div className="arm-status-name">3号臂（右）</div>
+                  <div className="arm-status-name">3鍙疯噦锛堝彸锛?/div>
                   <div className={`arm-status-state ${drillState.right.status}`}>
                     {getStatusLabel(drillState.right.status)}
                   </div>
@@ -1638,10 +1594,9 @@ function ControlPanel({
             {/* Explode mode specific: parts list */}
             {viewMode === 'explode' && (
               <div className="control-group">
-                <div className="control-group-title">部件结构认知</div>
+                <div className="control-group-title">閮ㄤ欢缁撴瀯璁ょ煡</div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginBottom: '8px', lineHeight: '1.5' }}>
-                  点击下方部件名称或直接点击3D模型中的部件，查看详细结构说明
-                </div>
+                  鐐瑰嚮涓嬫柟閮ㄤ欢鍚嶇О鎴栫洿鎺ョ偣鍑?D妯″瀷涓殑閮ㄤ欢锛屾煡鐪嬭缁嗙粨鏋勮鏄?                </div>
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -1682,13 +1637,13 @@ function ControlPanel({
               </div>
             )}
 
-            {/* 钻孔参数 */}
+            {/* 閽诲瓟鍙傛暟 */}
             <div className="control-group">
-              <div className="control-group-title">钻孔参数</div>
+              <div className="control-group-title">閽诲瓟鍙傛暟</div>
 
               <div className="control-item">
                 <div className="control-label-row">
-                  <span className="control-label">钻孔深度</span>
+                  <span className="control-label">閽诲瓟娣卞害</span>
                   <span className="control-value">{params.drillDepth.toFixed(1)} m</span>
                 </div>
                 <input
@@ -1704,7 +1659,7 @@ function ControlPanel({
 
               <div className="control-item">
                 <div className="control-label-row">
-                  <span className="control-label">钻孔直径</span>
+                  <span className="control-label">閽诲瓟鐩村緞</span>
                   <span className="control-value">{params.drillDiameter} mm</span>
                 </div>
                 <input
@@ -1720,7 +1675,7 @@ function ControlPanel({
 
               <div className="control-item">
                 <div className="control-label-row">
-                  <span className="control-label">推进力</span>
+                  <span className="control-label">鎺ㄨ繘鍔?/span>
                   <span className="control-value">{params.thrustForce.toFixed(1)} kN</span>
                 </div>
                 <input
@@ -1736,7 +1691,7 @@ function ControlPanel({
 
               <div className="control-item">
                 <div className="control-label-row">
-                  <span className="control-label">冲击功率</span>
+                  <span className="control-label">鍐插嚮鍔熺巼</span>
                   <span className="control-value">{params.impactPower} kW</span>
                 </div>
                 <input
@@ -1751,14 +1706,14 @@ function ControlPanel({
               </div>
             </div>
 
-            {/* 钻臂姿态 */}
+            {/* 閽昏噦濮挎€?*/}
             <div className="control-group">
-              <div className="control-group-title">钻臂姿态</div>
+              <div className="control-group-title">閽昏噦濮挎€?/div>
 
               <div className="control-item">
                 <div className="control-label-row">
-                  <span className="control-label">举升角度 (+65°/-30°)</span>
-                  <span className="control-value">{params.liftAngle}°</span>
+                  <span className="control-label">涓惧崌瑙掑害 (+65掳/-30掳)</span>
+                  <span className="control-value">{params.liftAngle}掳</span>
                 </div>
                 <input
                   type="range"
@@ -1773,8 +1728,8 @@ function ControlPanel({
 
               <div className="control-item">
                 <div className="control-label-row">
-                  <span className="control-label">摆动角度 (±45°)</span>
-                  <span className="control-value">{params.swingAngle}°</span>
+                  <span className="control-label">鎽嗗姩瑙掑害 (卤45掳)</span>
+                  <span className="control-value">{params.swingAngle}掳</span>
                 </div>
                 <input
                   type="range"
@@ -1788,9 +1743,9 @@ function ControlPanel({
               </div>
             </div>
 
-            {/* 围岩参数 */}
+            {/* 鍥村博鍙傛暟 */}
             <div className="control-group">
-              <div className="control-group-title">围岩参数</div>
+              <div className="control-group-title">鍥村博鍙傛暟</div>
 
               <div className="control-item">
                 <select
@@ -1805,27 +1760,27 @@ function ControlPanel({
               </div>
             </div>
 
-            {/* 仿真指标 */}
+            {/* 浠跨湡鎸囨爣 */}
             <div className="control-group">
-              <div className="control-group-title">仿真指标</div>
+              <div className="control-group-title">浠跨湡鎸囨爣</div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-                <MetricMini label="单孔时间" value={metrics.singleHoleTimeStr} unit="min" color="amber" />
-                <MetricMini label="钻进速度" value={metrics.actualSpeed} unit="m/min" color="amber" />
-                <MetricMini label="总孔数" value={metrics.totalHoles} unit="个" color="blue" />
-                <MetricMini label="总时长" value={metrics.totalDrillTime} unit="min" color="blue" />
-                <MetricMini label="能耗" value={metrics.energyConsumption} unit="kWh" color="green" />
-                <MetricMini label="爆破方量" value={metrics.blastingVolume} unit="m³" color="green" />
+                <MetricMini label="鍗曞瓟鏃堕棿" value={metrics.singleHoleTimeStr} unit="min" color="amber" />
+                <MetricMini label="閽昏繘閫熷害" value={metrics.actualSpeed} unit="m/min" color="amber" />
+                <MetricMini label="鎬诲瓟鏁? value={metrics.totalHoles} unit="涓? color="blue" />
+                <MetricMini label="鎬绘椂闀? value={metrics.totalDrillTime} unit="min" color="blue" />
+                <MetricMini label="鑳借€? value={metrics.energyConsumption} unit="kWh" color="green" />
+                <MetricMini label="鐖嗙牬鏂归噺" value={metrics.blastingVolume} unit="m鲁" color="green" />
               </div>
             </div>
 
-            {/* 仿真控制按钮 */}
+            {/* 浠跨湡鎺у埗鎸夐挳 */}
             <div className="sim-btn-group">
               <button
                 className={`sim-btn primary ${isSimulating ? 'running' : ''}`}
                 onClick={onSimulate}
               >
-                {isSimulating ? '停止仿真' : '开始仿真'}
+                {isSimulating ? '鍋滄浠跨湡' : '寮€濮嬩豢鐪?}
               </button>
             </div>
           </>
@@ -1835,8 +1790,7 @@ function ControlPanel({
         {viewMode === 'console' && (
           <div style={{ padding: '4px 0' }}>
             <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginBottom: '8px', lineHeight: '1.5' }}>
-              拖动操纵杆控制钻臂运动，点击按钮和旋钮调整参数
-            </div>
+              鎷栧姩鎿嶇旱鏉嗘帶鍒堕捇鑷傝繍鍔紝鐐瑰嚮鎸夐挳鍜屾棆閽皟鏁村弬鏁?            </div>
             <ConsolePanel
               selectedArm="center"
               params={params}
@@ -1886,11 +1840,10 @@ function MetricMini({ label, value, unit, color = 'amber' }) {
 Object.assign(window, { ControlPanel, ROCK_GRADES, VIEW_MODES, PARTS_LIST });
 
 
-// ===== DataDashboard.jsx =====
+// ===== src/DataDashboard.jsx =====
 /* ============================================================
-   数据分析看板组件
-   包含钻孔效率曲线、三臂协同时间轴、超欠挖控制、能耗统计
-   ============================================================ */
+   鏁版嵁鍒嗘瀽鐪嬫澘缁勪欢
+   鍖呭惈閽诲瓟鏁堢巼鏇茬嚎銆佷笁鑷傚崗鍚屾椂闂磋酱銆佽秴娆犳寲鎺у埗銆佽兘鑰楃粺璁?   ============================================================ */
 
 function EChart({ option, style }) {
   const ref = React.useRef(null);
@@ -1978,7 +1931,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
         textStyle: { color: '#e8eaed', fontSize: 11 },
         formatter: (params) => {
           const depth = params[0].axisValue;
-          let html = `<div style="font-weight:600;margin-bottom:4px">深度 ${depth} m</div>`;
+          let html = `<div style="font-weight:600;margin-bottom:4px">娣卞害 ${depth} m</div>`;
           params.forEach(p => {
             html += `<div style="display:flex;align-items:center;gap:6px">
               <span style="width:8px;height:8px;border-radius:50%;background:${p.color}"></span>
@@ -1989,7 +1942,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
         }
       },
       legend: {
-        data: ['左钻臂', '中钻臂', '右钻臂'],
+        data: ['宸﹂捇鑷?, '涓捇鑷?, '鍙抽捇鑷?],
         top: 2,
         right: 8,
         textStyle: { color: '#9aa0a6', fontSize: 10 },
@@ -1999,7 +1952,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       xAxis: {
         type: 'category',
         data: depthPoints,
-        name: '深度 (m)',
+        name: '娣卞害 (m)',
         nameTextStyle: { color: '#6b7280', fontSize: 10 },
         axisLine: { lineStyle: { color: '#363c4a' } },
         axisLabel: { color: '#6b7280', fontSize: 10 },
@@ -2007,7 +1960,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       },
       yAxis: {
         type: 'value',
-        name: '钻进速度 m/min',
+        name: '閽昏繘閫熷害 m/min',
         nameTextStyle: { color: '#6b7280', fontSize: 10 },
         axisLine: { lineStyle: { color: '#363c4a' } },
         axisLabel: { color: '#6b7280', fontSize: 10 },
@@ -2015,7 +1968,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       },
       series: [
         {
-          name: '左钻臂',
+          name: '宸﹂捇鑷?,
           type: 'line',
           data: leftSpeed,
           smooth: true,
@@ -2029,7 +1982,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
           },
         },
         {
-          name: '中钻臂',
+          name: '涓捇鑷?,
           type: 'line',
           data: centerSpeed,
           smooth: true,
@@ -2043,7 +1996,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
           },
         },
         {
-          name: '右钻臂',
+          name: '鍙抽捇鑷?,
           type: 'line',
           data: rightSpeed,
           smooth: true,
@@ -2064,16 +2017,16 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
   const timelineOption = React.useMemo(() => {
     // Simulated timeline for one cycle
     const phases = [
-      { name: '台车定位', start: 0, duration: 3, color: '#6b7280' },
-      { name: '展开钻臂', start: 3, duration: 2, color: '#8b5cf6' },
-      { name: '开孔定位', start: 5, duration: 3, color: '#f59e0b' },
-      { name: '掏槽眼', start: 8, duration: 15, color: '#ef4444' },
-      { name: '辅助眼', start: 23, duration: 30, color: '#f59e0b' },
-      { name: '周边眼', start: 53, duration: 20, color: '#10b981' },
-      { name: '清孔移位', start: 73, duration: 5, color: '#3b82f6' },
+      { name: '鍙拌溅瀹氫綅', start: 0, duration: 3, color: '#6b7280' },
+      { name: '灞曞紑閽昏噦', start: 3, duration: 2, color: '#8b5cf6' },
+      { name: '寮€瀛斿畾浣?, start: 5, duration: 3, color: '#f59e0b' },
+      { name: '鎺忔Ы鐪?, start: 8, duration: 15, color: '#ef4444' },
+      { name: '杈呭姪鐪?, start: 23, duration: 30, color: '#f59e0b' },
+      { name: '鍛ㄨ竟鐪?, start: 53, duration: 20, color: '#10b981' },
+      { name: '娓呭瓟绉讳綅', start: 73, duration: 5, color: '#3b82f6' },
     ];
 
-    const armNames = ['左钻臂', '中钻臂', '右钻臂'];
+    const armNames = ['宸﹂捇鑷?, '涓捇鑷?, '鍙抽捇鑷?];
     const seriesData = [];
 
     // Each arm does similar sequence but with slight offsets
@@ -2085,15 +2038,15 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
         let actualDur = phase.duration;
 
         // Center arm doesn't do cut holes (left+right do)
-        if (phase.name === '掏槽眼' && armIdx === 1) {
+        if (phase.name === '鎺忔Ы鐪? && armIdx === 1) {
           actualDur = phase.duration * 0.3;
         }
         // Center arm does more perimeter (top)
-        if (phase.name === '周边眼' && armIdx === 1) {
+        if (phase.name === '鍛ㄨ竟鐪? && armIdx === 1) {
           actualDur = phase.duration * 1.2;
         }
         // Left/right do more bottom perimeter
-        if (phase.name === '周边眼' && armIdx !== 1) {
+        if (phase.name === '鍛ㄨ竟鐪? && armIdx !== 1) {
           actualDur = phase.duration * 0.9;
         }
 
@@ -2115,14 +2068,14 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
         formatter: (params) => {
           const d = params.data;
           return `<div style="font-weight:600">${d.name}</div>
-            <div>开始: ${d.value[1].toFixed(1)} min</div>
-            <div>结束: ${d.value[2].toFixed(1)} min</div>
-            <div>时长: ${(d.value[2] - d.value[1]).toFixed(1)} min</div>`;
+            <div>寮€濮? ${d.value[1].toFixed(1)} min</div>
+            <div>缁撴潫: ${d.value[2].toFixed(1)} min</div>
+            <div>鏃堕暱: ${(d.value[2] - d.value[1]).toFixed(1)} min</div>`;
         }
       },
       xAxis: {
         type: 'value',
-        name: '时间 (min)',
+        name: '鏃堕棿 (min)',
         nameTextStyle: { color: '#6b7280', fontSize: 10 },
         min: 0,
         max: 80,
@@ -2185,7 +2138,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       },
       yAxis: {
         type: 'category',
-        data: ['超挖率', '欠挖率'],
+        data: ['瓒呮寲鐜?, '娆犳寲鐜?],
         axisLine: { lineStyle: { color: '#363c4a' } },
         axisLabel: { color: '#9aa0a6', fontSize: 11 },
         splitLine: { show: false },
@@ -2210,7 +2163,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
             symbol: 'none',
             lineStyle: { color: '#10b981', type: 'dashed', width: 1 },
             data: [
-              { xAxis: 5, label: { formatter: '合格线', color: '#10b981', fontSize: 9, position: 'insideEndTop' } }
+              { xAxis: 5, label: { formatter: '鍚堟牸绾?, color: '#10b981', fontSize: 9, position: 'insideEndTop' } }
             ],
           },
         },
@@ -2252,10 +2205,10 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
           label: { show: false },
           labelLine: { show: false },
           data: [
-            { value: impactEnergy, name: '冲击系统', itemStyle: { color: '#ef4444' } },
-            { value: rotationEnergy, name: '旋转系统', itemStyle: { color: '#f59e0b' } },
-            { value: hydraulicEnergy, name: '液压系统', itemStyle: { color: '#3b82f6' } },
-            { value: chassisEnergy, name: '底盘动力', itemStyle: { color: '#10b981' } },
+            { value: impactEnergy, name: '鍐插嚮绯荤粺', itemStyle: { color: '#ef4444' } },
+            { value: rotationEnergy, name: '鏃嬭浆绯荤粺', itemStyle: { color: '#f59e0b' } },
+            { value: hydraulicEnergy, name: '娑插帇绯荤粺', itemStyle: { color: '#3b82f6' } },
+            { value: chassisEnergy, name: '搴曠洏鍔ㄥ姏', itemStyle: { color: '#10b981' } },
           ],
         },
       ],
@@ -2277,7 +2230,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
           left: '30%',
           top: '55%',
           style: {
-            text: 'kWh/循环',
+            text: 'kWh/寰幆',
             fill: '#6b7280',
             fontSize: 9,
             textAlign: 'center',
@@ -2289,28 +2242,28 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
 
   return (
     <div className="dashboard-panel">
-      {/* KPI 卡片 */}
+      {/* KPI 鍗＄墖 */}
       <div className="dash-card">
         <div className="dash-card-header">
-          <span>核心指标</span>
+          <span>鏍稿績鎸囨爣</span>
         </div>
         <div className="dash-card-body">
           <div className="kpi-grid">
             <div className="kpi-item">
               <div className="kpi-value">{metrics.cycleAdvance}<span className="kpi-unit">m</span></div>
-              <div className="kpi-label">单循环进尺</div>
+              <div className="kpi-label">鍗曞惊鐜繘灏?/div>
             </div>
             <div className="kpi-item">
               <div className="kpi-value">{metrics.totalDrillTime.toFixed(0)}<span className="kpi-unit">min</span></div>
-              <div className="kpi-label">循环总时长</div>
+              <div className="kpi-label">寰幆鎬绘椂闀?/div>
             </div>
             <div className="kpi-item">
-              <div className="kpi-value">{metrics.blastingVolume.toFixed(0)}<span className="kpi-unit">m³</span></div>
-              <div className="kpi-label">爆破方量</div>
+              <div className="kpi-value">{metrics.blastingVolume.toFixed(0)}<span className="kpi-unit">m鲁</span></div>
+              <div className="kpi-label">鐖嗙牬鏂归噺</div>
             </div>
             <div className="kpi-item">
-              <div className="kpi-value">{metrics.totalHoles}<span className="kpi-unit">孔</span></div>
-              <div className="kpi-label">总炮孔数</div>
+              <div className="kpi-value">{metrics.totalHoles}<span className="kpi-unit">瀛?/span></div>
+              <div className="kpi-label">鎬荤偖瀛旀暟</div>
             </div>
           </div>
         </div>
@@ -2319,7 +2272,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       {/* Drilling efficiency curve */}
       <div className="dash-card">
         <div className="dash-card-header">
-          <span>钻孔效率曲线</span>
+          <span>閽诲瓟鏁堢巼鏇茬嚎</span>
         </div>
         <div className="dash-card-body">
           <EChart option={efficiencyOption} />
@@ -2329,7 +2282,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       {/* Three-arm timeline */}
       <div className="dash-card">
         <div className="dash-card-header">
-          <span>三臂协同时间轴</span>
+          <span>涓夎噦鍗忓悓鏃堕棿杞?/span>
         </div>
         <div className="dash-card-body">
           <EChart option={timelineOption} />
@@ -2339,7 +2292,7 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
       {/* Energy + overbreak combined - use blast hole view here */}
       <div className="dash-card">
         <div className="dash-card-header">
-          <span>掌子面布孔图</span>
+          <span>鎺屽瓙闈㈠竷瀛斿浘</span>
         </div>
         <div className="dash-card-body">
           <BlastHoleView params={params} />
@@ -2352,10 +2305,10 @@ function DataDashboard({ params, drillState, isSimulating, trainingMode = 'free'
 Object.assign(window, { DataDashboard, EChart });
 
 
-// ===== BlastHoleView.jsx =====
+// ===== src/BlastHoleView.jsx =====
 /* ============================================================
-   掌子面布孔可视化组件
-   展示掏槽眼、辅助眼、周边眼布置，以及三臂分工
+   鎺屽瓙闈㈠竷瀛斿彲瑙嗗寲缁勪欢
+   灞曠ず鎺忔Ы鐪笺€佽緟鍔╃溂銆佸懆杈圭溂甯冪疆锛屼互鍙婁笁鑷傚垎宸?
    ============================================================ */
 
 function BlastHoleView({ params }) {
@@ -2386,7 +2339,7 @@ function BlastHoleView({ params }) {
       perimeter: { left: [], center: [], right: [] },
     };
 
-    // Cut holes (掏槽眼) - 中心区域，楔形/直眼
+    // Cut holes (鎺忔Ы鐪? - 涓績鍖哄煙锛屾褰?鐩寸溂
     const cutRowCount = 4;
     const cutColCount = 5;
     const cutSpacingX = 500; // mm
@@ -2405,7 +2358,7 @@ function BlastHoleView({ params }) {
       }
     }
 
-    // Assist holes (辅助眼) - 中间环形区域
+    // Assist holes (杈呭姪鐪? - 涓棿鐜舰鍖哄煙
     const assistRings = 3;
     for (let ring = 0; ring < assistRings; ring++) {
       const ringRadius = 2500 + ring * 1000;
@@ -2424,7 +2377,7 @@ function BlastHoleView({ params }) {
       }
     }
 
-    // Perimeter holes (周边眼) - 轮廓线上
+    // Perimeter holes (鍛ㄨ竟鐪? - 杞粨绾夸笂
     // Bottom
     const bottomY = -3000;
     const bottomWidth = 6500;
@@ -2592,7 +2545,7 @@ function BlastHoleView({ params }) {
 
         {/* Hole count label */}
         <text x="10" y="18" fill="#9ca3af" fontSize="10">
-          总孔数: {counts.total}
+          鎬诲瓟鏁? {counts.total}
         </text>
       </svg>
     </div>
@@ -2602,25 +2555,24 @@ function BlastHoleView({ params }) {
 Object.assign(window, { BlastHoleView });
 
 
-// ===== ConsolePanel.jsx =====
+// ===== src/ConsolePanel.jsx =====
 /* ============================================================
-   三臂凿岩台车操作台数字孪生面板
-   基于中铁装备DJ3G真实操作台布局
+   涓夎噦鍑垮博鍙拌溅鎿嶄綔鍙版暟瀛楀鐢熼潰鏉?   鍩轰簬涓搧瑁呭DJ3G鐪熷疄鎿嶄綔鍙板竷灞€
    ============================================================ */
 
 function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params }) {
   const [gauges, setGauges] = React.useState({
-    rotary: 120,    // 回转压力 bar
-    impact: 180,    // 冲击压力 bar
-    thrust: 150,    // 推进压力 bar
-    air: 6,         // 气压 bar
-    water: 12,      // 水压 MPa
+    rotary: 120,    // 鍥炶浆鍘嬪姏 bar
+    impact: 180,    // 鍐插嚮鍘嬪姏 bar
+    thrust: 150,    // 鎺ㄨ繘鍘嬪姏 bar
+    air: 6,         // 姘斿帇 bar
+    water: 12,      // 姘村帇 MPa
   });
 
   const [buttons, setButtons] = React.useState({
     pumpOn: false,
     lubrication: false,
-    highImpact: false, // 高冲/低冲
+    highImpact: false, // 楂樺啿/浣庡啿
     emergencyStop: false,
     bigHole: false,
     water: false,
@@ -2628,15 +2580,14 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
   });
 
   const [knobs, setKnobs] = React.useState({
-    rotary: 50,    // 回转模式 0-100
-    impact: 60,    // 冲击模式
-    thrust: 70,    // 推进模式
-    thrustAdjust: 40, // 推进压力调节
+    rotary: 50,    // 鍥炶浆妯″紡 0-100
+    impact: 60,    // 鍐插嚮妯″紡
+    thrust: 70,    // 鎺ㄨ繘妯″紡
+    thrustAdjust: 40, // 鎺ㄨ繘鍘嬪姏璋冭妭
   });
 
   const [joysticks, setJoysticks] = React.useState({
-    main: { x: 0, y: 0 }, // 主操纵杆（大臂上下/左右）
-  });
+    main: { x: 0, y: 0 }, // 涓绘搷绾垫潌锛堝ぇ鑷備笂涓?宸﹀彸锛?  });
 
   // Simulate gauge pressure changes
   React.useEffect(() => {
@@ -2681,7 +2632,7 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
   // Pressure gauge SVG component
   const PressureGauge = ({ value, max, label, unit = 'bar', color = '#ef4444' }) => {
     const percentage = Math.min(value / max, 1);
-    const angle = -120 + percentage * 240; // -120° to 120°
+    const angle = -120 + percentage * 240; // -120掳 to 120掳
 
     // Tick marks
     const ticks = [];
@@ -2753,23 +2704,22 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
   return (
     <div className="console-panel-container">
       <div className="console-frame-top">
-        1号臂 · 2号臂 · 3号臂 操作控制台
-      </div>
+        1鍙疯噦 路 2鍙疯噦 路 3鍙疯噦 鎿嶄綔鎺у埗鍙?      </div>
 
       <div className="console-main">
         {/* Pressure gauge row - 5 gauges per arm */}
         <div className="gauge-row">
-          <PressureGauge value={gauges.rotary} max={250} label="回转压力" color="#ef4444" />
-          <PressureGauge value={gauges.impact} max={250} label="冲击压力" color="#f59e0b" />
-          <PressureGauge value={gauges.thrust} max={250} label="推进压力" color="#3b82f6" />
-          <PressureGauge value={gauges.air} max={10} label="气压表" unit="MPa" color="#10b981" />
-          <PressureGauge value={gauges.water} max={20} label="水压表" unit="MPa" color="#06b6d4" />
+          <PressureGauge value={gauges.rotary} max={250} label="鍥炶浆鍘嬪姏" color="#ef4444" />
+          <PressureGauge value={gauges.impact} max={250} label="鍐插嚮鍘嬪姏" color="#f59e0b" />
+          <PressureGauge value={gauges.thrust} max={250} label="鎺ㄨ繘鍘嬪姏" color="#3b82f6" />
+          <PressureGauge value={gauges.air} max={10} label="姘斿帇琛? unit="MPa" color="#10b981" />
+          <PressureGauge value={gauges.water} max={20} label="姘村帇琛? unit="MPa" color="#06b6d4" />
         </div>
 
         {/* Main joystick */}
         <div className="joystick-row">
           <div className="joystick-col">
-            <div className="joystick-main-label">大臂操纵杆</div>
+            <div className="joystick-main-label">澶ц噦鎿嶇旱鏉?/div>
             <div
               className="joystick-main"
               onMouseDown={(e) => startJoystickDrag(e, 'main')}
@@ -2785,8 +2735,8 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
               </div>
             </div>
             <div className="joystick-label-row">
-              <span>左</span>
-              <span>右</span>
+              <span>宸?/span>
+              <span>鍙?/span>
             </div>
           </div>
         </div>
@@ -2795,9 +2745,9 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
           {/* 4 small levers */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <div style={{ fontSize: '9px', color: 'var(--text-muted)', textAlign: 'center' }}>动作选择</div>
+            <div style={{ fontSize: '9px', color: 'var(--text-muted)', textAlign: 'center' }}>鍔ㄤ綔閫夋嫨</div>
             <div style={{ display: 'flex', gap: 3 }}>
-              {['梁回转', '梁俯仰', '臂伸缩', '梁伸缩'].map((label, i) => (
+              {['姊佸洖杞?, '姊佷刊浠?, '鑷備几缂?, '姊佷几缂?].map((label, i) => (
                 <div key={i} style={{ textAlign: 'center' }}>
                   <div
                     style={{
@@ -2843,9 +2793,9 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
                   style={{ opacity: buttons.pumpOn ? 1 : 0.7 }}
                   onClick={() => toggleButton('pumpOn')}
                 >
-                  {buttons.pumpOn ? '●' : '○'}
+                  {buttons.pumpOn ? '鈼? : '鈼?}
                 </button>
-                <div className="console-btn-label">泵{buttons.pumpOn ? '起' : '停'}</div>
+                <div className="console-btn-label">娉祘buttons.pumpOn ? '璧? : '鍋?}</div>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <button
@@ -2853,9 +2803,8 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
                   onClick={() => toggleButton('pumpOn')}
                   style={{ opacity: !buttons.pumpOn ? 1 : 0.5 }}
                 >
-                  ●
-                </button>
-                <div className="console-btn-label">泵停</div>
+                  鈼?                </button>
+                <div className="console-btn-label">娉靛仠</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: 6 }}>
@@ -2865,9 +2814,9 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
                   style={{ opacity: buttons.lubrication ? 1 : 0.6, width: '22px', height: '22px', fontSize: '8px' }}
                   onClick={() => toggleButton('lubrication')}
                 >
-                  💧
+                  馃挧
                 </button>
-                <div className="console-btn-label">润滑</div>
+                <div className="console-btn-label">娑︽粦</div>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <button
@@ -2875,7 +2824,7 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
                   style={{ fontSize: '8px' }}
                   onClick={() => toggleButton('emergencyStop')}
                 >
-                  急停
+                  鎬ュ仠
                 </button>
               </div>
             </div>
@@ -2901,19 +2850,19 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
               }}
               onClick={() => toggleButton('highImpact')}
             >
-              高冲 / 低冲
+              楂樺啿 / 浣庡啿
             </div>
             <div style={{ fontSize: '8px', color: 'var(--text-muted)', marginTop: '2px' }}>
-              {buttons.highImpact ? '高频冲击' : '低频冲击'}
+              {buttons.highImpact ? '楂橀鍐插嚮' : '浣庨鍐插嚮'}
             </div>
           </div>
 
           {/* Mode knobs */}
           <div className="knob-row">
             {[
-              { key: 'rotary', label: '回转' },
-              { key: 'impact', label: '冲击' },
-              { key: 'thrust', label: '推进' },
+              { key: 'rotary', label: '鍥炶浆' },
+              { key: 'impact', label: '鍐插嚮' },
+              { key: 'thrust', label: '鎺ㄨ繘' },
             ].map(k => (
               <div key={k.key} className="knob-group">
                 <div
@@ -2939,19 +2888,19 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
               onClick={() => handleKnob('thrustAdjust', 10)}
               onContextMenu={(e) => { e.preventDefault(); handleKnob('thrustAdjust', -10); }}
             />
-            <div className="knob-label">推进调节</div>
+            <div className="knob-label">鎺ㄨ繘璋冭妭</div>
           </div>
         </div>
 
         {/* Bottom switches */}
         <div className="switch-panel" style={{ marginTop: '6px' }}>
-          <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginBottom: '4px' }}>功能开关</div>
+          <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginBottom: '4px' }}>鍔熻兘寮€鍏?/div>
           <div className="switch-grid">
             {[
-              { key: 'bigHole', label: '大孔' },
-              { key: 'water', label: '水气' },
-              { key: 'forceImpact', label: '强制冲击' },
-              { key: 'lubrication2', label: '润滑' },
+              { key: 'bigHole', label: '澶у瓟' },
+              { key: 'water', label: '姘存皵' },
+              { key: 'forceImpact', label: '寮哄埗鍐插嚮' },
+              { key: 'lubrication2', label: '娑︽粦' },
             ].map(s => (
               <div key={s.key} className="switch-item">
                 <div
@@ -3006,63 +2955,63 @@ function ConsolePanel({ selectedArm = 'center', onArmChange, onAction, params })
 Object.assign(window, { ConsolePanel });
 
 
-// ===== TrainingMode.jsx =====
+// ===== src/TrainingMode.jsx =====
 /* ============================================================
-   教学模式组件 - 教学引导 / 考核评分
+   鏁欏妯″紡缁勪欢 - 鏁欏寮曞 / 鑰冩牳璇勫垎
    ============================================================ */
 
 const TEACHING_STEPS = [
   {
     id: 1,
-    title: '台车定位',
-    description: '将三臂凿岩台车行驶至掌子面前方合适位置，确保台车中心线与隧道中心线对齐。注意观察掌子面情况，预留安全作业距离。',
-    knowledge: '【一心五点】控制隧道中心位置和五个开挖轮廓点（拱顶、左右拱肩、左右边墙），确保台车定位准确。',
-    action: '定位',
+    title: '鍙拌溅瀹氫綅',
+    description: '灏嗕笁鑷傚嚳宀╁彴杞﹁椹惰嚦鎺屽瓙闈㈠墠鏂瑰悎閫備綅缃紝纭繚鍙拌溅涓績绾夸笌闅ч亾涓績绾垮榻愩€傛敞鎰忚瀵熸帉瀛愰潰鎯呭喌锛岄鐣欏畨鍏ㄤ綔涓氳窛绂汇€?,
+    knowledge: '銆愪竴蹇冧簲鐐广€戞帶鍒堕毀閬撲腑蹇冧綅缃拰浜斾釜寮€鎸栬疆寤撶偣锛堟嫳椤躲€佸乏鍙虫嫳鑲┿€佸乏鍙宠竟澧欙級锛岀‘淇濆彴杞﹀畾浣嶅噯纭€?,
+    action: '瀹氫綅',
   },
   {
     id: 2,
-    title: '展开钻臂',
-    description: '依次展开三个钻臂（1号左臂、2号中臂、3号右臂），注意各臂之间的安全距离，防止碰撞。先展开左右臂，再展开中臂。',
-    knowledge: '【一线两端】台车大臂与隧道中心线平行（一线），推进梁前后端点位置准确（两端），保证钻孔方向正确。',
-    action: '展开',
+    title: '灞曞紑閽昏噦',
+    description: '渚濇灞曞紑涓変釜閽昏噦锛?鍙峰乏鑷傘€?鍙蜂腑鑷傘€?鍙峰彸鑷傦級锛屾敞鎰忓悇鑷備箣闂寸殑瀹夊叏璺濈锛岄槻姝㈢鎾炪€傚厛灞曞紑宸﹀彸鑷傦紝鍐嶅睍寮€涓噦銆?,
+    knowledge: '銆愪竴绾夸袱绔€戝彴杞﹀ぇ鑷備笌闅ч亾涓績绾垮钩琛岋紙涓€绾匡級锛屾帹杩涙鍓嶅悗绔偣浣嶇疆鍑嗙‘锛堜袱绔級锛屼繚璇侀捇瀛旀柟鍚戞纭€?,
+    action: '灞曞紑',
   },
   {
     id: 3,
-    title: '调整钻杆角度',
-    description: '根据布孔设计，调整各钻臂的举升角度、摆动角度和推进梁俯仰角度。使用角度传感器读数进行精确调整，允许偏差≤0.8°。',
-    knowledge: '角度偏差>0.8°时自动PID闭环纠偏。周边眼角度控制精度直接影响光面爆破效果和超欠挖量。',
-    action: '调整角度',
+    title: '璋冩暣閽绘潌瑙掑害',
+    description: '鏍规嵁甯冨瓟璁捐锛岃皟鏁村悇閽昏噦鐨勪妇鍗囪搴︺€佹憜鍔ㄨ搴﹀拰鎺ㄨ繘姊佷刊浠拌搴︺€備娇鐢ㄨ搴︿紶鎰熷櫒璇绘暟杩涜绮剧‘璋冩暣锛屽厑璁稿亸宸墹0.8掳銆?,
+    knowledge: '瑙掑害鍋忓樊>0.8掳鏃惰嚜鍔≒ID闂幆绾犲亸銆傚懆杈圭溂瑙掑害鎺у埗绮惧害鐩存帴褰卞搷鍏夐潰鐖嗙牬鏁堟灉鍜岃秴娆犳寲閲忋€?,
+    action: '璋冩暣瑙掑害',
   },
   {
     id: 4,
-    title: '开孔定位',
-    description: '将钻钻头对准孔位标记，缓慢推进开孔。开孔阶段采用低冲击、低推进模式，确认孔位准确后再转入全功率钻孔。',
-    knowledge: '【一高一低】推进梁尾部高度（一高）决定钻孔仰角，开孔处最低位置（一低）确保钻孔起始点准确。',
-    action: '开孔',
+    title: '寮€瀛斿畾浣?,
+    description: '灏嗛捇閽诲ご瀵瑰噯瀛斾綅鏍囪锛岀紦鎱㈡帹杩涘紑瀛斻€傚紑瀛旈樁娈甸噰鐢ㄤ綆鍐插嚮銆佷綆鎺ㄨ繘妯″紡锛岀‘璁ゅ瓟浣嶅噯纭悗鍐嶈浆鍏ュ叏鍔熺巼閽诲瓟銆?,
+    knowledge: '銆愪竴楂樹竴浣庛€戞帹杩涙灏鹃儴楂樺害锛堜竴楂橈級鍐冲畾閽诲瓟浠拌锛屽紑瀛斿鏈€浣庝綅缃紙涓€浣庯級纭繚閽诲瓟璧峰鐐瑰噯纭€?,
+    action: '寮€瀛?,
   },
   {
     id: 5,
-    title: '全功率钻孔',
-    description: '确认开孔正常后，切换至全功率钻进模式。根据岩石软硬实时调整冲击功率和推进速度，保持最佳钻进效率。',
-    knowledge: '【一快一慢】硬岩慢推进、高冲击；软岩快推进、低冲击。根据围岩情况灵活调整冲击与推进速度的匹配关系。',
-    action: '钻孔',
+    title: '鍏ㄥ姛鐜囬捇瀛?,
+    description: '纭寮€瀛旀甯稿悗锛屽垏鎹㈣嚦鍏ㄥ姛鐜囬捇杩涙ā寮忋€傛牴鎹博鐭宠蒋纭疄鏃惰皟鏁村啿鍑诲姛鐜囧拰鎺ㄨ繘閫熷害锛屼繚鎸佹渶浣抽捇杩涙晥鐜囥€?,
+    knowledge: '銆愪竴蹇竴鎱€戠‖宀╂參鎺ㄨ繘銆侀珮鍐插嚮锛涜蒋宀╁揩鎺ㄨ繘銆佷綆鍐插嚮銆傛牴鎹洿宀╂儏鍐电伒娲昏皟鏁村啿鍑讳笌鎺ㄨ繘閫熷害鐨勫尮閰嶅叧绯汇€?,
+    action: '閽诲瓟',
   },
   {
     id: 6,
-    title: '退杆返回',
-    description: '钻孔达到设计深度后，停止冲击，缓慢回退钻杆。退杆过程中保持旋转，防止卡钻。退杆完成后推进梁返回初始位置。',
-    knowledge: '退杆速度约为钻进速度的1.5~2倍。如遇卡钻，应先正反转活动钻杆，严禁强行拔杆。',
-    action: '退杆',
+    title: '閫€鏉嗚繑鍥?,
+    description: '閽诲瓟杈惧埌璁捐娣卞害鍚庯紝鍋滄鍐插嚮锛岀紦鎱㈠洖閫€閽绘潌銆傞€€鏉嗚繃绋嬩腑淇濇寔鏃嬭浆锛岄槻姝㈠崱閽汇€傞€€鏉嗗畬鎴愬悗鎺ㄨ繘姊佽繑鍥炲垵濮嬩綅缃€?,
+    knowledge: '閫€鏉嗛€熷害绾︿负閽昏繘閫熷害鐨?.5~2鍊嶃€傚閬囧崱閽伙紝搴斿厛姝ｅ弽杞椿鍔ㄩ捇鏉嗭紝涓ョ寮鸿鎷旀潌銆?,
+    action: '閫€鏉?,
   },
 ];
 
 const EXAM_CRITERIA = [
-  { name: '孔位精度', weight: 25, score: 92, desc: '孔位偏差<±1.8cm达标' },
-  { name: '角度控制', weight: 20, score: 88, desc: '角度偏差≤0.8°达标' },
-  { name: '作业效率', weight: 20, score: 95, desc: '单孔时间优于标准值' },
-  { name: '操作规范', weight: 15, score: 85, desc: '操作流程完全正确' },
-  { name: '安全意识', weight: 10, score: 100, desc: '无违规操作' },
-  { name: '故障处理', weight: 10, score: 78, desc: '卡钻处理正确' },
+  { name: '瀛斾綅绮惧害', weight: 25, score: 92, desc: '瀛斾綅鍋忓樊<卤1.8cm杈炬爣' },
+  { name: '瑙掑害鎺у埗', weight: 20, score: 88, desc: '瑙掑害鍋忓樊鈮?.8掳杈炬爣' },
+  { name: '浣滀笟鏁堢巼', weight: 20, score: 95, desc: '鍗曞瓟鏃堕棿浼樹簬鏍囧噯鍊? },
+  { name: '鎿嶄綔瑙勮寖', weight: 15, score: 85, desc: '鎿嶄綔娴佺▼瀹屽叏姝ｇ‘' },
+  { name: '瀹夊叏鎰忚瘑', weight: 10, score: 100, desc: '鏃犺繚瑙勬搷浣? },
+  { name: '鏁呴殰澶勭悊', weight: 10, score: 78, desc: '鍗￠捇澶勭悊姝ｇ‘' },
 ];
 
 function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
@@ -3126,7 +3075,7 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
       score: Math.round(totalScore),
       criteria: EXAM_CRITERIA,
       time: examTime,
-      grade: totalScore >= 90 ? '优秀' : totalScore >= 80 ? '良好' : totalScore >= 70 ? '合格' : '不合格',
+      grade: totalScore >= 90 ? '浼樼' : totalScore >= 80 ? '鑹ソ' : totalScore >= 70 ? '鍚堟牸' : '涓嶅悎鏍?,
     });
   };
 
@@ -3148,32 +3097,32 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
         <div className="exam-result-panel" onClick={e => e.stopPropagation()}>
           <div className="exam-result-header">
             <div className="exam-score">{examResults.score}</div>
-            <div className="exam-score-label">综合评分</div>
+            <div className="exam-score-label">缁煎悎璇勫垎</div>
             <div className="exam-grade">{examResults.grade}</div>
           </div>
           <div className="exam-result-body">
             <div className="exam-result-section">
-              <div className="exam-result-title">考核详情</div>
+              <div className="exam-result-title">鑰冩牳璇︽儏</div>
               <div className="score-breakdown">
                 {examResults.criteria.map((c, i) => (
                   <div key={i} className="score-item">
-                    <span className="score-item-name">{c.name}（{c.weight}%）</span>
-                    <span className="score-item-value">{c.score}分</span>
+                    <span className="score-item-name">{c.name}锛坽c.weight}%锛?/span>
+                    <span className="score-item-value">{c.score}鍒?/span>
                   </div>
                 ))}
               </div>
             </div>
             <div className="exam-result-section">
-              <div className="exam-result-title">考核用时</div>
+              <div className="exam-result-title">鑰冩牳鐢ㄦ椂</div>
               <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--accent-blue)', fontFamily: 'monospace' }}>
                 {formatTime(examResults.time)}
               </div>
             </div>
           </div>
           <div className="exam-actions">
-            <button className="exam-action-btn" onClick={resetExam}>重新考核</button>
-            <button className="exam-action-btn" onClick={onExit}>返回练习</button>
-            <button className="exam-action-btn primary" onClick={() => window.print && window.print()}>导出报告</button>
+            <button className="exam-action-btn" onClick={resetExam}>閲嶆柊鑰冩牳</button>
+            <button className="exam-action-btn" onClick={onExit}>杩斿洖缁冧範</button>
+            <button className="exam-action-btn primary" onClick={() => window.print && window.print()}>瀵煎嚭鎶ュ憡</button>
           </div>
         </div>
       </div>
@@ -3186,8 +3135,7 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
       <>
         <div className="step-progress-bar">
           <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--accent-amber)', marginRight: '10px' }}>
-            考核进行中
-          </span>
+            鑰冩牳杩涜涓?          </span>
           <span style={{
             fontSize: '18px',
             fontWeight: '700',
@@ -3202,12 +3150,11 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
             style={{ padding: '5px 12px', fontSize: '11px' }}
             onClick={finishExam}
           >
-            提交考核
+            鎻愪氦鑰冩牳
           </button>
         </div>
         <div style={{ padding: '8px 12px', background: 'rgba(239, 68, 68, 0.1)', borderBottom: '1px solid var(--border-color)', fontSize: '11px', color: 'var(--accent-red)' }}>
-          📋 考核任务：完成标准断面 150 个炮孔的钻孔作业，考核孔位精度、角度控制、作业效率和操作规范度
-        </div>
+          馃搵 鑰冩牳浠诲姟锛氬畬鎴愭爣鍑嗘柇闈?150 涓偖瀛旂殑閽诲瓟浣滀笟锛岃€冩牳瀛斾綅绮惧害銆佽搴︽帶鍒躲€佷綔涓氭晥鐜囧拰鎿嶄綔瑙勮寖搴?        </div>
       </>
     );
   }
@@ -3230,15 +3177,14 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
             textAlign: 'center',
           }}>
             <div style={{ fontSize: '24px', fontWeight: '800', color: '#fff', marginBottom: '4px' }}>
-              操作考核模式
+              鎿嶄綔鑰冩牳妯″紡
             </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)' }}>
-              完成标准任务，系统自动评分
-            </div>
+              瀹屾垚鏍囧噯浠诲姟锛岀郴缁熻嚜鍔ㄨ瘎鍒?            </div>
           </div>
           <div style={{ padding: '20px 24px' }}>
             <div style={{ fontSize: '13px', fontWeight: '600', marginBottom: '12px', color: 'var(--text-primary)' }}>
-              考核内容
+              鑰冩牳鍐呭
             </div>
             <div style={{ display: 'grid', gap: '8px' }}>
               {EXAM_CRITERIA.map((c, i) => (
@@ -3253,7 +3199,7 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
                 }}>
                   <span style={{ color: 'var(--text-secondary)' }}>{c.name}</span>
                   <span style={{ color: 'var(--accent-amber)', fontWeight: '600' }}>
-                    权重 {c.weight}%
+                    鏉冮噸 {c.weight}%
                   </span>
                 </div>
               ))}
@@ -3265,9 +3211,9 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
             padding: '16px 24px',
             borderTop: '1px solid var(--border-color)',
           }}>
-            <button className="sim-btn" style={{ flex: 1 }} onClick={onExit}>返回</button>
+            <button className="sim-btn" style={{ flex: 1 }} onClick={onExit}>杩斿洖</button>
             <button className="sim-btn primary" style={{ flex: 1 }} onClick={startExam}>
-              开始考核
+              寮€濮嬭€冩牳
             </button>
           </div>
         </div>
@@ -3285,7 +3231,7 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
         {TEACHING_STEPS.map((s, i) => (
           <React.Fragment key={s.id}>
             <div className={`step-dot ${i === currentStep ? 'active' : i < currentStep ? 'completed' : ''}`}>
-              {i < currentStep ? '✓' : i + 1}
+              {i < currentStep ? '鉁? : i + 1}
             </div>
             {i < TEACHING_STEPS.length - 1 && (
               <div className={`step-line ${i < currentStep ? 'completed' : ''}`}></div>
@@ -3293,7 +3239,7 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
           </React.Fragment>
         ))}
         <span className="step-label">
-          步骤 {currentStep + 1}/{TEACHING_STEPS.length}：{step.title}
+          姝ラ {currentStep + 1}/{TEACHING_STEPS.length}锛歿step.title}
         </span>
       </div>
 
@@ -3304,8 +3250,8 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
         transform: 'translateX(-50%)',
       }}>
         <div className="teaching-bubble-header">
-          <span style={{ fontSize: '16px' }}>👨‍🏫</span>
-          AI 实训导师
+          <span style={{ fontSize: '16px' }}>馃懆鈥嶐煆?/span>
+          AI 瀹炶瀵煎笀
         </div>
         <div style={{
           fontSize: '13px',
@@ -3319,12 +3265,12 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
           {step.description}
         </div>
         <div className="knowledge-card" style={{ marginTop: '8px' }}>
-          <div className="knowledge-card-title">💡 实训知识要点</div>
+          <div className="knowledge-card-title">馃挕 瀹炶鐭ヨ瘑瑕佺偣</div>
           <div className="knowledge-card-content">{step.knowledge}</div>
         </div>
         <div className="teaching-bubble-footer">
           <span className="teaching-step-indicator">
-            进度 {currentStep + 1}/{TEACHING_STEPS.length}
+            杩涘害 {currentStep + 1}/{TEACHING_STEPS.length}
           </span>
           <div style={{ display: 'flex', gap: '6px' }}>
             {currentStep > 0 && (
@@ -3333,11 +3279,10 @@ function TrainingMode({ mode, onExit, onComplete, drillState, params }) {
                 style={{ background: 'var(--bg-elevated)', color: 'var(--text-secondary)' }}
                 onClick={handlePrevStep}
               >
-                上一步
-              </button>
+                涓婁竴姝?              </button>
             )}
             <button className="teaching-next-btn" onClick={handleNextStep}>
-              {currentStep < TEACHING_STEPS.length - 1 ? '下一步' : '完成学习'}
+              {currentStep < TEACHING_STEPS.length - 1 ? '涓嬩竴姝? : '瀹屾垚瀛︿範'}
             </button>
           </div>
         </div>
@@ -3383,7 +3328,7 @@ function ExamRadarChart({ results }) {
         type: 'radar',
         data: [{
           value: results.criteria.map(c => c.score),
-          name: '考核成绩',
+          name: '鑰冩牳鎴愮哗',
           areaStyle: {
             color: 'rgba(245, 158, 11, 0.2)',
           },
@@ -3405,151 +3350,146 @@ function ExamRadarChart({ results }) {
 Object.assign(window, { TrainingMode, TEACHING_STEPS, EXAM_CRITERIA, ExamRadarChart });
 
 
-// ===== ExamModule.jsx =====
+// ===== src/ExamModule.jsx =====
 /* ============================================================
-   中铁七局隧道工竞赛考核评分系统
-   100分制 · 5大项目 · 完全对标真实职业技能竞赛标准
-   ============================================================ */
+   涓搧涓冨眬闅ч亾宸ョ珵璧涜€冩牳璇勫垎绯荤粺
+   100鍒嗗埗 路 5澶ч」鐩?路 瀹屽叏瀵规爣鐪熷疄鑱屼笟鎶€鑳界珵璧涙爣鍑?   ============================================================ */
 
-// 完整评分细则 - 100分制
+// 瀹屾暣璇勫垎缁嗗垯 - 100鍒嗗埗
 const EXAM_ITEMS = [
   {
     id: 'safety',
-    name: '安全基本素养',
+    name: '瀹夊叏鍩烘湰绱犲吇',
     score: 5,
     children: [
-      { id: 's1', name: '正确穿着工服（非半袖）', score: 1, type: 'deduct' },
-      { id: 's2', name: '安全帽正确佩戴固定牢固', score: 2, type: 'deduct' },
-      { id: 's3', name: '防护手套穿戴合适', score: 1, type: 'deduct' },
-      { id: 's4', name: '防护鞋穿戴符合要求', score: 1, type: 'deduct' },
+      { id: 's1', name: '姝ｇ‘绌跨潃宸ユ湇锛堥潪鍗婅锛?, score: 1, type: 'deduct' },
+      { id: 's2', name: '瀹夊叏甯芥纭僵鎴村浐瀹氱墷鍥?, score: 2, type: 'deduct' },
+      { id: 's3', name: '闃叉姢鎵嬪绌挎埓鍚堥€?, score: 1, type: 'deduct' },
+      { id: 's4', name: '闃叉姢闉嬬┛鎴寸鍚堣姹?, score: 1, type: 'deduct' },
     ],
   },
   {
     id: 'preparation',
-    name: '设备基本操作及安全驾驶-作业准备',
+    name: '璁惧鍩烘湰鎿嶄綔鍙婂畨鍏ㄩ┚椹?浣滀笟鍑嗗',
     score: 24,
     children: [
-      { id: 'p1', name: '行车前说明前后有无障碍物', score: 1, type: 'deduct' },
-      { id: 'p2', name: '行车前检查各操作手柄、按钮、旋钮状态', score: 2, type: 'deduct' },
-      { id: 'p3', name: '臂架收至行车状态，行驶中无碰撞', score: 1, type: 'deduct' },
-      { id: 'p4', name: '按流程开机（9步流程，漏1项扣1分）', score: 5, type: 'process', steps: 9 },
-      { id: 'p5', name: '正确使用工作灯', score: 1, type: 'deduct' },
-      { id: 'p6', name: '开启电缆卷盘和水管卷盘', score: 1, type: 'deduct' },
-      { id: 'p7', name: '顺利通过栈桥（计时评分）', score: 5, type: 'timed', timeLimit: 240, fullTime: 120, mediumTime: 180 },
-      { id: 'p8', name: '台车定位：摆位2-2.5米距掌子面', score: 1, type: 'deduct' },
-      { id: 'p9', name: '台车定位：开启支腿', score: 1, type: 'deduct' },
-      { id: 'p10', name: '台车定位：关闭液压加载开关', score: 1, type: 'deduct' },
-      { id: 'p11', name: '台车定位：保持空挡开启手刹', score: 1, type: 'deduct' },
-      { id: 'p12', name: '台车定位：关闭行车灯', score: 1, type: 'deduct' },
-      { id: 'p13', name: '掌子面排险：机械臂冲击回转清理碎石', score: 2, type: 'deduct' },
-      { id: 'p14', name: '掌子面排险：确认拱顶已无危石', score: 1, type: 'deduct' },
+      { id: 'p1', name: '琛岃溅鍓嶈鏄庡墠鍚庢湁鏃犻殰纰嶇墿', score: 1, type: 'deduct' },
+      { id: 'p2', name: '琛岃溅鍓嶆鏌ュ悇鎿嶄綔鎵嬫焺銆佹寜閽€佹棆閽姸鎬?, score: 2, type: 'deduct' },
+      { id: 'p3', name: '鑷傛灦鏀惰嚦琛岃溅鐘舵€侊紝琛岄┒涓棤纰版挒', score: 1, type: 'deduct' },
+      { id: 'p4', name: '鎸夋祦绋嬪紑鏈猴紙9姝ユ祦绋嬶紝婕?椤规墸1鍒嗭級', score: 5, type: 'process', steps: 9 },
+      { id: 'p5', name: '姝ｇ‘浣跨敤宸ヤ綔鐏?, score: 1, type: 'deduct' },
+      { id: 'p6', name: '寮€鍚數缂嗗嵎鐩樺拰姘寸鍗风洏', score: 1, type: 'deduct' },
+      { id: 'p7', name: '椤哄埄閫氳繃鏍堟ˉ锛堣鏃惰瘎鍒嗭級', score: 5, type: 'timed', timeLimit: 240, fullTime: 120, mediumTime: 180 },
+      { id: 'p8', name: '鍙拌溅瀹氫綅锛氭憜浣?-2.5绫宠窛鎺屽瓙闈?, score: 1, type: 'deduct' },
+      { id: 'p9', name: '鍙拌溅瀹氫綅锛氬紑鍚敮鑵?, score: 1, type: 'deduct' },
+      { id: 'p10', name: '鍙拌溅瀹氫綅锛氬叧闂恫鍘嬪姞杞藉紑鍏?, score: 1, type: 'deduct' },
+      { id: 'p11', name: '鍙拌溅瀹氫綅锛氫繚鎸佺┖鎸″紑鍚墜鍒?, score: 1, type: 'deduct' },
+      { id: 'p12', name: '鍙拌溅瀹氫綅锛氬叧闂杞︾伅', score: 1, type: 'deduct' },
+      { id: 'p13', name: '鎺屽瓙闈㈡帓闄╋細鏈烘鑷傚啿鍑诲洖杞竻鐞嗙鐭?, score: 2, type: 'deduct' },
+      { id: 'p14', name: '鎺屽瓙闈㈡帓闄╋細纭鎷遍《宸叉棤鍗辩煶', score: 1, type: 'deduct' },
     ],
   },
   {
     id: 'drilling',
-    name: '凿岩操作能力鉴定-标准凿岩',
+    name: '鍑垮博鎿嶄綔鑳藉姏閴村畾-鏍囧噯鍑垮博',
     score: 44,
     children: [
-      { id: 'd1', name: '正确选择钻臂（周边孔1号臂、底板掏槽2号臂）', score: 5, type: 'deduct' },
-      { id: 'd2', name: '凿岩流程正确（展臂→顶梁→水冲→润滑→低回转→低冲击→推进）', score: 3, type: 'deduct' },
-      { id: 'd3', name: '压力调节正确（低冲击80-90bar、低推进40-50bar）', score: 3, type: 'deduct' },
-      { id: 'd4', name: '钻进30-50cm后开高冲', score: 2, type: 'deduct' },
-      { id: 'd5', name: '退杆流程正确（关冲击→退杆→退至尾部→复位→关汽水）', score: 2, type: 'deduct' },
-      { id: 'd6', name: '钻孔技巧：周边孔平行边墙', score: 1, type: 'deduct' },
-      { id: 'd7', name: '钻孔技巧：掏槽孔推进梁偏转>45°', score: 1, type: 'deduct' },
-      { id: 'd8', name: '钻孔技巧：底板孔推进梁回转>90°', score: 2, type: 'deduct' },
-      { id: 'd9', name: '钻孔准度（偏离1cm内满分）', score: 5, type: 'precision' },
-      { id: 'd10', name: '钻孔效率（10分钟内满分）', score: 20, type: 'timed', timeLimit: 900, fullTime: 600, mediumTime: 720 },
+      { id: 'd1', name: '姝ｇ‘閫夋嫨閽昏噦锛堝懆杈瑰瓟1鍙疯噦銆佸簳鏉挎帍妲?鍙疯噦锛?, score: 5, type: 'deduct' },
+      { id: 'd2', name: '鍑垮博娴佺▼姝ｇ‘锛堝睍鑷傗啋椤舵鈫掓按鍐测啋娑︽粦鈫掍綆鍥炶浆鈫掍綆鍐插嚮鈫掓帹杩涳級', score: 3, type: 'deduct' },
+      { id: 'd3', name: '鍘嬪姏璋冭妭姝ｇ‘锛堜綆鍐插嚮80-90bar銆佷綆鎺ㄨ繘40-50bar锛?, score: 3, type: 'deduct' },
+      { id: 'd4', name: '閽昏繘30-50cm鍚庡紑楂樺啿', score: 2, type: 'deduct' },
+      { id: 'd5', name: '閫€鏉嗘祦绋嬫纭紙鍏冲啿鍑烩啋閫€鏉嗏啋閫€鑷冲熬閮ㄢ啋澶嶄綅鈫掑叧姹芥按锛?, score: 2, type: 'deduct' },
+      { id: 'd6', name: '閽诲瓟鎶€宸э細鍛ㄨ竟瀛斿钩琛岃竟澧?, score: 1, type: 'deduct' },
+      { id: 'd7', name: '閽诲瓟鎶€宸э細鎺忔Ы瀛旀帹杩涙鍋忚浆>45掳', score: 1, type: 'deduct' },
+      { id: 'd8', name: '閽诲瓟鎶€宸э細搴曟澘瀛旀帹杩涙鍥炶浆>90掳', score: 2, type: 'deduct' },
+      { id: 'd9', name: '閽诲瓟鍑嗗害锛堝亸绂?cm鍐呮弧鍒嗭級', score: 5, type: 'precision' },
+      { id: 'd10', name: '閽诲瓟鏁堢巼锛?0鍒嗛挓鍐呮弧鍒嗭級', score: 20, type: 'timed', timeLimit: 900, fullTime: 600, mediumTime: 720 },
     ],
   },
   {
     id: 'recovery',
-    name: '收车',
+    name: '鏀惰溅',
     score: 12,
     children: [
-      { id: 'r1', name: '臂架收回行车状态、无碰撞', score: 2, type: 'deduct' },
-      { id: 'r2', name: '收车计时（2分钟内满分）', score: 10, type: 'timed', timeLimit: 300, fullTime: 120, mediumTime: 240 },
+      { id: 'r1', name: '鑷傛灦鏀跺洖琛岃溅鐘舵€併€佹棤纰版挒', score: 2, type: 'deduct' },
+      { id: 'r2', name: '鏀惰溅璁℃椂锛?鍒嗛挓鍐呮弧鍒嗭級', score: 10, type: 'timed', timeLimit: 300, fullTime: 120, mediumTime: 240 },
     ],
   },
   {
     id: 'qa',
-    name: '问答',
+    name: '闂瓟',
     score: 15,
     children: [
-      { id: 'q1', name: '推进梁日常保养知识问答', score: 15, type: 'qa' },
+      { id: 'q1', name: '鎺ㄨ繘姊佹棩甯镐繚鍏荤煡璇嗛棶绛?, score: 15, type: 'qa' },
     ],
   },
 ];
 
-// 开机9步流程
-const STARTUP_STEPS = [
-  '打开蓄电池开关',
-  '挡位开关置于空挡0档',
-  '按下复位按钮',
-  '按喇叭示意',
-  '启动发动机',
-  '启动液压加载开关',
-  '调大手动油门',
-  '收支腿',
-  '关闭液压加载',
+// 寮€鏈?姝ユ祦绋?const STARTUP_STEPS = [
+  '鎵撳紑钃勭數姹犲紑鍏?,
+  '鎸′綅寮€鍏崇疆浜庣┖鎸?妗?,
+  '鎸変笅澶嶄綅鎸夐挳',
+  '鎸夊枃鍙ず鎰?,
+  '鍚姩鍙戝姩鏈?,
+  '鍚姩娑插帇鍔犺浇寮€鍏?,
+  '璋冨ぇ鎵嬪姩娌归棬',
+  '鏀舵敮鑵?,
+  '鍏抽棴娑插帇鍔犺浇',
 ];
 
-// 7个保养知识点（问答题目）
+// 7涓繚鍏荤煡璇嗙偣锛堥棶绛旈鐩級
 const MAINTENANCE_QUESTIONS = [
   {
-    keyword: '螺栓',
-    question: '推进梁日常保养中，螺栓检查的要求是什么？',
-    answer: '推进梁螺栓全部检查有无松动，确保所有连接螺栓紧固到位，特别是推进梁导轨固定螺栓和T型梁连接螺栓。',
-    scorePoints: '推进梁螺栓全部检查有无松动',
+    keyword: '铻烘爴',
+    question: '鎺ㄨ繘姊佹棩甯镐繚鍏讳腑锛岃灪鏍撴鏌ョ殑瑕佹眰鏄粈涔堬紵',
+    answer: '鎺ㄨ繘姊佽灪鏍撳叏閮ㄦ鏌ユ湁鏃犳澗鍔紝纭繚鎵€鏈夎繛鎺ヨ灪鏍撶揣鍥哄埌浣嶏紝鐗瑰埆鏄帹杩涙瀵艰建鍥哄畾铻烘爴鍜孴鍨嬫杩炴帴铻烘爴銆?,
+    scorePoints: '鎺ㄨ繘姊佽灪鏍撳叏閮ㄦ鏌ユ湁鏃犳澗鍔?,
   },
   {
-    keyword: '润滑脂-钢丝绳',
-    question: '钢丝绳滑轮的润滑保养如何操作？',
-    answer: '在钢丝绳滑轮两侧加注新润滑脂，确保滑轮转动灵活，钢丝绳得到充分润滑。加注时应观察到新润滑脂从另一侧溢出为止。',
-    scorePoints: '钢丝绳滑轮两侧新润滑脂打出',
+    keyword: '娑︽粦鑴?閽笣缁?,
+    question: '閽笣缁虫粦杞殑娑︽粦淇濆吇濡備綍鎿嶄綔锛?,
+    answer: '鍦ㄩ挗涓濈怀婊戣疆涓や晶鍔犳敞鏂版鼎婊戣剛锛岀‘淇濇粦杞浆鍔ㄧ伒娲伙紝閽笣缁冲緱鍒板厖鍒嗘鼎婊戙€傚姞娉ㄦ椂搴旇瀵熷埌鏂版鼎婊戣剛浠庡彟涓€渚ф孩鍑轰负姝€?,
+    scorePoints: '閽笣缁虫粦杞袱渚ф柊娑︽粦鑴傛墦鍑?,
   },
   {
-    keyword: '润滑脂-油管',
-    question: '油管卷盘的润滑保养要点是什么？',
-    answer: '油管卷盘上下部位均需加注新润滑脂，保证卷盘回转灵活，防止锈蚀卡滞。定期检查油管有无磨损、老化现象。',
-    scorePoints: '油管卷盘上下新润滑脂打出',
+    keyword: '娑︽粦鑴?娌圭',
+    question: '娌圭鍗风洏鐨勬鼎婊戜繚鍏昏鐐规槸浠€涔堬紵',
+    answer: '娌圭鍗风洏涓婁笅閮ㄤ綅鍧囬渶鍔犳敞鏂版鼎婊戣剛锛屼繚璇佸嵎鐩樺洖杞伒娲伙紝闃叉閿堣殌鍗℃粸銆傚畾鏈熸鏌ユ补绠℃湁鏃犵（鎹熴€佽€佸寲鐜拌薄銆?,
+    scorePoints: '娌圭鍗风洏涓婁笅鏂版鼎婊戣剛鎵撳嚭',
   },
   {
-    keyword: '张紧度',
-    question: '如何检查钢丝绳张紧度是否正常？',
-    answer: '用手掌用力按压钢丝绳，相对水平方向应有约5mm左右的运动量。过松需要张紧，过紧则需要放松，以保证推进平稳、延长寿命。',
-    scorePoints: '手掌用力按压钢丝绳相对水平方向5mm左右运动量',
+    keyword: '寮犵揣搴?,
+    question: '濡備綍妫€鏌ラ挗涓濈怀寮犵揣搴︽槸鍚︽甯革紵',
+    answer: '鐢ㄦ墜鎺岀敤鍔涙寜鍘嬮挗涓濈怀锛岀浉瀵规按骞虫柟鍚戝簲鏈夌害5mm宸﹀彸鐨勮繍鍔ㄩ噺銆傝繃鏉鹃渶瑕佸紶绱э紝杩囩揣鍒欓渶瑕佹斁鏉撅紝浠ヤ繚璇佹帹杩涘钩绋炽€佸欢闀垮鍛姐€?,
+    scorePoints: '鎵嬫帉鐢ㄥ姏鎸夊帇閽笣缁崇浉瀵规按骞虫柟鍚?mm宸﹀彸杩愬姩閲?,
   },
   {
-    keyword: '保护条',
-    question: '推进梁保护条及耐磨块的维护方法？',
-    answer: '涂润滑油对推进梁保护条及耐磨块进行日常维护，减少凿岩机滑架与推进梁之间的摩擦磨损，延长使用寿命。定期检查磨损量，超差及时更换。',
-    scorePoints: '涂润滑油对推进梁保护条及耐磨块日常维护',
+    keyword: '淇濇姢鏉?,
+    question: '鎺ㄨ繘姊佷繚鎶ゆ潯鍙婅€愮（鍧楃殑缁存姢鏂规硶锛?,
+    answer: '娑傛鼎婊戞补瀵规帹杩涙淇濇姢鏉″強鑰愮（鍧楄繘琛屾棩甯哥淮鎶わ紝鍑忓皯鍑垮博鏈烘粦鏋朵笌鎺ㄨ繘姊佷箣闂寸殑鎽╂摝纾ㄦ崯锛屽欢闀夸娇鐢ㄥ鍛姐€傚畾鏈熸鏌ョ（鎹熼噺锛岃秴宸強鏃舵洿鎹€?,
+    scorePoints: '娑傛鼎婊戞补瀵规帹杩涙淇濇姢鏉″強鑰愮（鍧楁棩甯哥淮鎶?,
   },
   {
-    keyword: '空推压力',
-    question: '钻机空推压力的标准是多少？为什么要检查？',
-    answer: '保证钻机空推压力不高于30bar。空推压力过高说明推进阻力大，可能是保护条磨损过大、导轨变形或润滑不良，需及时排查处理。',
-    scorePoints: '保证钻机空推压力不高于30bar',
+    keyword: '绌烘帹鍘嬪姏',
+    question: '閽绘満绌烘帹鍘嬪姏鐨勬爣鍑嗘槸澶氬皯锛熶负浠€涔堣妫€鏌ワ紵',
+    answer: '淇濊瘉閽绘満绌烘帹鍘嬪姏涓嶉珮浜?0bar銆傜┖鎺ㄥ帇鍔涜繃楂樿鏄庢帹杩涢樆鍔涘ぇ锛屽彲鑳芥槸淇濇姢鏉＄（鎹熻繃澶с€佸杞ㄥ彉褰㈡垨娑︽粦涓嶈壇锛岄渶鍙婃椂鎺掓煡澶勭悊銆?,
+    scorePoints: '淇濊瘉閽绘満绌烘帹鍘嬪姏涓嶉珮浜?0bar',
   },
   {
-    keyword: '水封',
-    question: '凿岩机水封安装有什么要求？',
-    answer: '水封安装正确无误，方向不能装反，密封面应完好无损伤。水封失效会导致进水进油，严重影响凿岩机使用寿命，必须定期检查更换。',
-    scorePoints: '水封安装正确无误',
+    keyword: '姘村皝',
+    question: '鍑垮博鏈烘按灏佸畨瑁呮湁浠€涔堣姹傦紵',
+    answer: '姘村皝瀹夎姝ｇ‘鏃犺锛屾柟鍚戜笉鑳借鍙嶏紝瀵嗗皝闈㈠簲瀹屽ソ鏃犳崯浼ゃ€傛按灏佸け鏁堜細瀵艰嚧杩涙按杩涙补锛屼弗閲嶅奖鍝嶅嚳宀╂満浣跨敤瀵垮懡锛屽繀椤诲畾鏈熸鏌ユ洿鎹€?,
+    scorePoints: '姘村皝瀹夎姝ｇ‘鏃犺',
   },
 ];
 
 const EXAM_TASK_DESCRIPTION = `
-某铁路隧道IV级围岩全断面开挖断面，断面尺寸宽14m×高10m。
-请驾驶三臂凿岩台车进行打孔操作，要求完成：
-  ① 周边孔 1个（使用1号左臂）
-  ② 掏槽孔 1个（使用2号中臂）
-  ③ 底板孔 1个（使用2号中臂）
-打孔完成后按规范收车至行车状态。
-`;
+鏌愰搧璺毀閬揑V绾у洿宀╁叏鏂潰寮€鎸栨柇闈紝鏂潰灏哄瀹?4m脳楂?0m銆?璇烽┚椹朵笁鑷傚嚳宀╁彴杞﹁繘琛屾墦瀛旀搷浣滐紝瑕佹眰瀹屾垚锛?  鈶?鍛ㄨ竟瀛?1涓紙浣跨敤1鍙峰乏鑷傦級
+  鈶?鎺忔Ы瀛?1涓紙浣跨敤2鍙蜂腑鑷傦級
+  鈶?搴曟澘瀛?1涓紙浣跨敤2鍙蜂腑鑷傦級
+鎵撳瓟瀹屾垚鍚庢寜瑙勮寖鏀惰溅鑷宠杞︾姸鎬併€?`;
 
-// 计算计时项目得分
+// 璁＄畻璁℃椂椤圭洰寰楀垎
 function calcTimedScore(maxScore, actualTime, fullTime, mediumTime, lowTime) {
   if (actualTime <= fullTime) return maxScore;
   if (actualTime <= mediumTime) return Math.round(maxScore * 0.8);
@@ -3557,7 +3497,7 @@ function calcTimedScore(maxScore, actualTime, fullTime, mediumTime, lowTime) {
   return 0;
 }
 
-// 计算精度项目得分
+// 璁＄畻绮惧害椤圭洰寰楀垎
 function calcPrecisionScore(maxScore, deviationCm) {
   if (deviationCm <= 1) return maxScore;
   if (deviationCm <= 3) return Math.round(maxScore * 0.8);
@@ -3566,34 +3506,33 @@ function calcPrecisionScore(maxScore, deviationCm) {
 }
 
 function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
-  // 考试阶段: intro / prep / operating / qa / result
+  // 鑰冭瘯闃舵: intro / prep / operating / qa / result
   const [examPhase, setExamPhase] = React.useState('intro');
-  const [prepTime, setPrepTime] = React.useState(120); // 准备时间2分钟
-  const [operateTime, setOperateTime] = React.useState(0); // 正式操作时间
-  const [maxOperateTime] = React.useState(1500); // 25分钟
+  const [prepTime, setPrepTime] = React.useState(120); // 鍑嗗鏃堕棿2鍒嗛挓
+  const [operateTime, setOperateTime] = React.useState(0); // 姝ｅ紡鎿嶄綔鏃堕棿
+  const [maxOperateTime] = React.useState(1500); // 25鍒嗛挓
 
-  // 评分状态
-  const [scores, setScores] = React.useState({});
+  // 璇勫垎鐘舵€?  const [scores, setScores] = React.useState({});
   const [deductions, setDeductions] = React.useState({});
   const [startupChecked, setStartupChecked] = React.useState([]);
-  const [deviation, setDeviation] = React.useState(1.5); // 模拟孔位偏差
+  const [deviation, setDeviation] = React.useState(1.5); // 妯℃嫙瀛斾綅鍋忓樊
   const [drillStartTime, setDrillStartTime] = React.useState(null);
   const [drillEndTime, setDrillEndTime] = React.useState(null);
   const [recoveryStartTime, setRecoveryStartTime] = React.useState(null);
   const [recoveryEndTime, setRecoveryEndTime] = React.useState(null);
 
-  // 问答
+  // 闂瓟
   const [qaQuestions, setQaQuestions] = React.useState([]);
   const [currentQIndex, setCurrentQIndex] = React.useState(0);
   const [qaAnswer, setQaAnswer] = React.useState('');
   const [qaResults, setQaResults] = React.useState([]);
   const [qaSubmitted, setQaSubmitted] = React.useState(false);
 
-  // 栈桥通过
+  // 鏍堟ˉ閫氳繃
   const [trestlePassed, setTrestlePassed] = React.useState(false);
   const [trestleTime, setTrestleTime] = React.useState(0);
 
-  // 初始化考试 - 随机选3道题
+  // 鍒濆鍖栬€冭瘯 - 闅忔満閫?閬撻
   React.useEffect(() => {
     if (mode === 'exam' && examPhase === 'intro') {
       const shuffled = [...MAINTENANCE_QUESTIONS].sort(() => Math.random() - 0.5);
@@ -3601,8 +3540,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     }
   }, [mode, examPhase]);
 
-  // 准备倒计时
-  React.useEffect(() => {
+  // 鍑嗗鍊掕鏃?  React.useEffect(() => {
     if (examPhase !== 'prep') return;
     if (prepTime <= 0) {
       setExamPhase('operating');
@@ -3614,7 +3552,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     return () => clearInterval(timer);
   }, [examPhase, prepTime]);
 
-  // 操作计时
+  // 鎿嶄綔璁℃椂
   React.useEffect(() => {
     if (examPhase !== 'operating') return;
     const timer = setInterval(() => {
@@ -3639,11 +3577,10 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
   const startExam = () => {
     setExamPhase('prep');
     setPrepTime(120);
-    // 初始化安全项默认全对
+    // 鍒濆鍖栧畨鍏ㄩ」榛樿鍏ㄥ
     setScores({
-      s1: 1, s2: 2, s3: 1, s4: 1, // 安全全给
-      p1: 0, p2: 0, p3: 1, // 行车准备需要操作
-      p4: 0, p5: 0, p6: 0, p7: 0,
+      s1: 1, s2: 2, s3: 1, s4: 1, // 瀹夊叏鍏ㄧ粰
+      p1: 0, p2: 0, p3: 1, // 琛岃溅鍑嗗闇€瑕佹搷浣?      p4: 0, p5: 0, p6: 0, p7: 0,
       p8: 0, p9: 0, p10: 0, p11: 0, p12: 0,
       p13: 0, p14: 0,
       d1: 0, d2: 0, d3: 0, d4: 0, d5: 0,
@@ -3664,7 +3601,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     setDrillEndTime(null);
   };
 
-  // 模拟操作按钮 - 记录操作步骤完成情况
+  // 妯℃嫙鎿嶄綔鎸夐挳 - 璁板綍鎿嶄綔姝ラ瀹屾垚鎯呭喌
   const markItemComplete = (itemId, scoreValue, note = '') => {
     setScores(prev => ({ ...prev, [itemId]: scoreValue }));
     if (note) {
@@ -3678,16 +3615,16 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
         return prev.filter(s => s !== stepIndex);
       }
       const newChecked = [...prev, stepIndex];
-      // 开机9步完成度评分
+      // 寮€鏈?姝ュ畬鎴愬害璇勫垎
       const p4Score = Math.round((newChecked.length / 9) * 5);
       setScores(s => ({ ...s, p4: p4Score }));
       return newChecked;
     });
   };
 
-  // 进入问答环节
+  // 杩涘叆闂瓟鐜妭
   const goToQA = () => {
-    // 在此之前计算钻孔时间得分
+    // 鍦ㄦ涔嬪墠璁＄畻閽诲瓟鏃堕棿寰楀垎
     if (drillStartTime && drillEndTime) {
       const drillTime = drillEndTime - drillStartTime;
       const d10Score = calcTimedScore(20, drillTime, 600, 720, 900);
@@ -3696,19 +3633,18 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     setExamPhase('qa');
   };
 
-  // 提交问答答案
+  // 鎻愪氦闂瓟绛旀
   const submitQaAnswer = () => {
     const currentQ = qaQuestions[currentQIndex];
     if (!currentQ) return;
 
-    // 模拟评分 - 检查答案是否包含关键词
+    // 妯℃嫙璇勫垎 - 妫€鏌ョ瓟妗堟槸鍚﹀寘鍚叧閿瘝
     const answerLower = qaAnswer.toLowerCase();
     const keywordHits = currentQ.scorePoints.split('').filter(c =>
       answerLower.includes(c)
     ).length;
 
-    const perQuestionScore = 15 / 3; // 3道题共15分
-    const hitRatio = Math.min(1, keywordHits / Math.max(1, currentQ.scorePoints.length * 0.3));
+    const perQuestionScore = 15 / 3; // 3閬撻鍏?5鍒?    const hitRatio = Math.min(1, keywordHits / Math.max(1, currentQ.scorePoints.length * 0.3));
     const gotScore = Math.round(perQuestionScore * hitRatio);
 
     const newResult = {
@@ -3734,39 +3670,36 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     if (currentQIndex < qaQuestions.length - 1) {
       setCurrentQIndex(i => i + 1);
     } else {
-      // 所有问答完成，进入结果页
-      finalizeExam();
+      // 鎵€鏈夐棶绛斿畬鎴愶紝杩涘叆缁撴灉椤?      finalizeExam();
     }
   };
 
-  // 收车完成
+  // 鏀惰溅瀹屾垚
   const finishRecovery = () => {
-    const recoveryTime = Math.floor(Math.random() * 120) + 60; // 模拟1-3分钟
+    const recoveryTime = Math.floor(Math.random() * 120) + 60; // 妯℃嫙1-3鍒嗛挓
     setRecoveryEndTime(Date.now());
     const r2Score = calcTimedScore(10, recoveryTime, 120, 240, 300);
     setScores(prev => ({ ...prev, r1: 2, r2: r2Score }));
     goToQA();
   };
 
-  // 最终计算成绩
-  const finalizeExam = () => {
+  // 鏈€缁堣绠楁垚缁?  const finalizeExam = () => {
     setExamPhase('result');
   };
 
-  // 计算总分
+  // 璁＄畻鎬诲垎
   const totalScore = React.useMemo(() => {
     return Object.values(scores).reduce((sum, s) => sum + (s || 0), 0);
   }, [scores]);
 
-  const grade = totalScore >= 90 ? '优秀' : totalScore >= 80 ? '良好' : totalScore >= 60 ? '合格' : '不合格';
+  const grade = totalScore >= 90 ? '浼樼' : totalScore >= 80 ? '鑹ソ' : totalScore >= 60 ? '鍚堟牸' : '涓嶅悎鏍?;
   const gradeColor = totalScore >= 90 ? '#10b981' : totalScore >= 80 ? '#3b82f6' : totalScore >= 60 ? '#f59e0b' : '#ef4444';
 
-  // === 渲染各个阶段 ===
+  // === 娓叉煋鍚勪釜闃舵 ===
 
   if (mode !== 'exam') return null;
 
-  // 介绍页
-  if (examPhase === 'intro') {
+  // 浠嬬粛椤?  if (examPhase === 'intro') {
     return (
       <div className="modal-overlay">
         <div style={{
@@ -3784,14 +3717,12 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             flexShrink: 0,
           }}>
             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', letterSpacing: '2px', marginBottom: '6px' }}>
-              中铁七局 · 隧道工职业技能竞赛
-            </div>
+              涓搧涓冨眬 路 闅ч亾宸ヨ亴涓氭妧鑳界珵璧?            </div>
             <div style={{ fontSize: '22px', fontWeight: '800', color: '#fff' }}>
-              三臂凿岩台车操作考核
+              涓夎噦鍑垮博鍙拌溅鎿嶄綔鑰冩牳
             </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginTop: '4px' }}>
-              满分 100 分 · 100分制裁判评分表
-            </div>
+              婊″垎 100 鍒?路 100鍒嗗埗瑁佸垽璇勫垎琛?            </div>
           </div>
 
           <div style={{ padding: '18px 24px', overflowY: 'auto', flex: 1 }}>
@@ -3803,7 +3734,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               marginBottom: '14px',
             }}>
               <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--accent-blue)', marginBottom: '6px' }}>
-                📋 考核任务
+                馃搵 鑰冩牳浠诲姟
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.7', whiteSpace: 'pre-line' }}>
                 {EXAM_TASK_DESCRIPTION.trim()}
@@ -3811,8 +3742,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             </div>
 
             <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '10px' }}>
-              考核项目与分值
-            </div>
+              鑰冩牳椤圭洰涓庡垎鍊?            </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {EXAM_ITEMS.map((item, i) => (
                 <div key={item.id} style={{
@@ -3827,8 +3757,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                     {i + 1}. {item.name}
                   </span>
                   <span style={{ color: 'var(--accent-amber)', fontWeight: '700' }}>
-                    {item.score}分
-                  </span>
+                    {item.score}鍒?                  </span>
                 </div>
               ))}
             </div>
@@ -3842,12 +3771,11 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               color: 'var(--accent-red)',
               lineHeight: '1.6',
             }}>
-              <div style={{ fontWeight: '700', marginBottom: '4px' }}>⚠ 考核规则</div>
-              · 准备时间：2分钟（不计入操作时间）<br />
-              · 正式操作时间：25分钟，超时自动交卷<br />
-              · 问答环节：随机抽取3道推进梁保养题<br />
-              · 作弊或严重违规直接判0分
-            </div>
+              <div style={{ fontWeight: '700', marginBottom: '4px' }}>鈿?鑰冩牳瑙勫垯</div>
+              路 鍑嗗鏃堕棿锛?鍒嗛挓锛堜笉璁″叆鎿嶄綔鏃堕棿锛?br />
+              路 姝ｅ紡鎿嶄綔鏃堕棿锛?5鍒嗛挓锛岃秴鏃惰嚜鍔ㄤ氦鍗?br />
+              路 闂瓟鐜妭锛氶殢鏈烘娊鍙?閬撴帹杩涙淇濆吇棰?br />
+              路 浣滃紛鎴栦弗閲嶈繚瑙勭洿鎺ュ垽0鍒?            </div>
           </div>
 
           <div style={{
@@ -3856,9 +3784,9 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             borderTop: '1px solid var(--border-color)',
             flexShrink: 0,
           }}>
-            <button className="sim-btn" style={{ flex: 1 }} onClick={onExit}>返回练习</button>
+            <button className="sim-btn" style={{ flex: 1 }} onClick={onExit}>杩斿洖缁冧範</button>
             <button className="sim-btn primary" style={{ flex: 1 }} onClick={startExam}>
-              进入考场
+              杩涘叆鑰冨満
             </button>
           </div>
         </div>
@@ -3866,7 +3794,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     );
   }
 
-  // 准备阶段
+  // 鍑嗗闃舵
   if (examPhase === 'prep') {
     return (
       <div style={{
@@ -3886,13 +3814,12 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
           fontSize: '11px',
           fontWeight: '700',
         }}>
-          准备阶段
+          鍑嗗闃舵
         </div>
         <div style={{ fontSize: '12px', color: 'var(--text-primary)', fontWeight: '600' }}>
-          熟悉操作台布局与3D场景，准备开始操作
-        </div>
+          鐔熸倝鎿嶄綔鍙板竷灞€涓?D鍦烘櫙锛屽噯澶囧紑濮嬫搷浣?        </div>
         <div style={{ flex: 1 }} />
-        <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>准备倒计时</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>鍑嗗鍊掕鏃?/div>
         <div style={{
           fontSize: '28px', fontWeight: '800', fontFamily: 'monospace',
           color: prepTime <= 30 ? 'var(--accent-red)' : 'var(--accent-amber)',
@@ -3901,13 +3828,12 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
           {formatTime(prepTime)}
         </div>
         <button className="sim-btn primary" style={{ padding: '6px 14px' }} onClick={() => setExamPhase('operating')}>
-          开始操作 →
-        </button>
+          寮€濮嬫搷浣?鈫?        </button>
       </div>
     );
   }
 
-  // 操作阶段
+  // 鎿嶄綔闃舵
   if (examPhase === 'operating') {
     const timeLeft = maxOperateTime - operateTime;
     const timePercent = (timeLeft / maxOperateTime) * 100;
@@ -3931,10 +3857,9 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
           fontWeight: '700',
           animation: 'pulse 1.5s ease-in-out infinite',
         }}>
-          ● 考核进行中
-        </div>
+          鈼?鑰冩牳杩涜涓?        </div>
         <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
-          剩余时间
+          鍓╀綑鏃堕棿
         </div>
         <div style={{
           fontSize: '22px', fontWeight: '800', fontFamily: 'monospace',
@@ -3958,18 +3883,18 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
         </div>
 
         <div style={{ display: 'flex', gap: '4px' }}>
-          <ExamStepBadge label="安全" done={scores.s1 > 0} />
-          <ExamStepBadge label="开机" done={scores.p4 > 0} />
-          <ExamStepBadge label="定位" done={scores.p8 > 0} />
-          <ExamStepBadge label="钻孔" done={scores.d1 > 0} />
-          <ExamStepBadge label="收车" done={scores.r1 > 0} />
-          <ExamStepBadge label="问答" done={examPhase === 'qa'} />
+          <ExamStepBadge label="瀹夊叏" done={scores.s1 > 0} />
+          <ExamStepBadge label="寮€鏈? done={scores.p4 > 0} />
+          <ExamStepBadge label="瀹氫綅" done={scores.p8 > 0} />
+          <ExamStepBadge label="閽诲瓟" done={scores.d1 > 0} />
+          <ExamStepBadge label="鏀惰溅" done={scores.r1 > 0} />
+          <ExamStepBadge label="闂瓟" done={examPhase === 'qa'} />
         </div>
 
         <div style={{ display: 'flex', gap: '6px' }}>
           <button className="sim-btn" style={{ padding: '5px 10px', fontSize: '10px' }}
             onClick={() => {
-              // 模拟完成钻孔
+              // 妯℃嫙瀹屾垚閽诲瓟
               setDrillStartTime(Date.now() - 660000);
               setDrillEndTime(Date.now());
               setScores(prev => ({
@@ -3980,18 +3905,17 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                 d10: calcTimedScore(20, 660, 600, 720, 900),
               }));
             }}>
-            完成钻孔
+            瀹屾垚閽诲瓟
           </button>
           <button className="sim-btn primary" style={{ padding: '5px 10px', fontSize: '10px' }}
             onClick={finishRecovery}>
-            完成收车 →
-          </button>
+            瀹屾垚鏀惰溅 鈫?          </button>
         </div>
       </div>
     );
   }
 
-  // 问答阶段
+  // 闂瓟闃舵
   if (examPhase === 'qa' && !qaSubmitted) {
     const currentQ = qaQuestions[currentQIndex];
     return (
@@ -4009,20 +3933,19 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             borderBottom: '1px solid var(--border-color)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '18px' }}>👨‍🏫</span>
+              <span style={{ fontSize: '18px' }}>馃懆鈥嶐煆?/span>
               <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--accent-purple)' }}>
-                AI 导师提问环节
+                AI 瀵煎笀鎻愰棶鐜妭
               </span>
               <div style={{ flex: 1 }} />
               <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                第 {currentQIndex + 1} / {qaQuestions.length} 题
-              </span>
+                绗?{currentQIndex + 1} / {qaQuestions.length} 棰?              </span>
             </div>
           </div>
 
           <div style={{ padding: '18px 20px' }}>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px' }}>
-              请回答关于推进梁日常保养的问题：
+              璇峰洖绛斿叧浜庢帹杩涙鏃ュ父淇濆吇鐨勯棶棰橈細
             </div>
             <div style={{
               padding: '12px 14px',
@@ -4035,7 +3958,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               lineHeight: '1.6',
               marginBottom: '14px',
             }}>
-              Q：{currentQ?.question}
+              Q锛歿currentQ?.question}
             </div>
 
             <textarea
@@ -4052,22 +3975,21 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                 outline: 'none',
                 lineHeight: '1.6',
               }}
-              placeholder="请输入你的回答..."
+              placeholder="璇疯緭鍏ヤ綘鐨勫洖绛?.."
               value={qaAnswer}
               onChange={e => setQaAnswer(e.target.value)}
             />
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px' }}>
               <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
-                每题5分 · 共3题 · 问答满分15分
-              </span>
+                姣忛5鍒?路 鍏?棰?路 闂瓟婊″垎15鍒?              </span>
               <button
                 className="sim-btn primary"
                 style={{ padding: '6px 18px' }}
                 disabled={!qaAnswer.trim()}
                 onClick={submitQaAnswer}
               >
-                提交答案
+                鎻愪氦绛旀
               </button>
             </div>
           </div>
@@ -4076,7 +3998,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     );
   }
 
-  // 问答结果展示
+  // 闂瓟缁撴灉灞曠ず
   if (examPhase === 'qa' && qaSubmitted) {
     const currentQ = qaQuestions[currentQIndex];
     const lastResult = qaResults[qaResults.length - 1];
@@ -4100,24 +4022,23 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             justifyContent: 'space-between',
           }}>
             <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-primary)' }}>
-              {lastResult.gotScore >= lastResult.maxScore ? '✅ 回答正确' : lastResult.gotScore > lastResult.maxScore * 0.6 ? '⚠ 部分正确' : '❌ 回答不完整'}
+              {lastResult.gotScore >= lastResult.maxScore ? '鉁?鍥炵瓟姝ｇ‘' : lastResult.gotScore > lastResult.maxScore * 0.6 ? '鈿?閮ㄥ垎姝ｇ‘' : '鉂?鍥炵瓟涓嶅畬鏁?}
             </span>
             <span style={{
               fontSize: '18px', fontWeight: '800',
               color: lastResult.gotScore > lastResult.maxScore * 0.6 ? 'var(--accent-green)' : 'var(--accent-red)',
             }}>
-              {lastResult.gotScore} / {lastResult.maxScore}分
-            </span>
+              {lastResult.gotScore} / {lastResult.maxScore}鍒?            </span>
           </div>
 
           <div style={{ padding: '16px 20px', maxHeight: '50vh', overflowY: 'auto' }}>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-              题目：{currentQ?.question}
+              棰樼洰锛歿currentQ?.question}
             </div>
 
             <div style={{ marginTop: '12px' }}>
               <div style={{ fontSize: '11px', color: 'var(--accent-amber)', fontWeight: '600', marginBottom: '4px' }}>
-                你的回答
+                浣犵殑鍥炵瓟
               </div>
               <div style={{
                 padding: '8px 10px',
@@ -4128,14 +4049,13 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                 lineHeight: '1.6',
                 whiteSpace: 'pre-wrap',
               }}>
-                {lastResult.userAnswer || '（未作答）'}
+                {lastResult.userAnswer || '锛堟湭浣滅瓟锛?}
               </div>
             </div>
 
             <div style={{ marginTop: '12px' }}>
               <div style={{ fontSize: '11px', color: 'var(--accent-green)', fontWeight: '600', marginBottom: '4px' }}>
-                参考答案（得分要点：{lastResult.scorePoints}）
-              </div>
+                鍙傝€冪瓟妗堬紙寰楀垎瑕佺偣锛歿lastResult.scorePoints}锛?              </div>
               <div style={{
                 padding: '8px 10px',
                 background: 'rgba(16, 185, 129, 0.08)',
@@ -4158,11 +4078,10 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             alignItems: 'center',
           }}>
             <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              已完成 {currentQIndex + 1} / {qaQuestions.length} 题
-              （问答累计 {scores.q1 || 0} / 15分）
+              宸插畬鎴?{currentQIndex + 1} / {qaQuestions.length} 棰?              锛堥棶绛旂疮璁?{scores.q1 || 0} / 15鍒嗭級
             </span>
             <button className="sim-btn primary" onClick={nextQaQuestion}>
-              {currentQIndex < qaQuestions.length - 1 ? '下一题 →' : '查看最终成绩'}
+              {currentQIndex < qaQuestions.length - 1 ? '涓嬩竴棰?鈫? : '鏌ョ湅鏈€缁堟垚缁?}
             </button>
           </div>
         </div>
@@ -4170,8 +4089,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
     );
   }
 
-  // 结果页 - 裁判评分表样式
-  if (examPhase === 'result') {
+  // 缁撴灉椤?- 瑁佸垽璇勫垎琛ㄦ牱寮?  if (examPhase === 'result') {
     return (
       <div className="modal-overlay" style={{ alignItems: 'flex-start', padding: '20px', overflowY: 'auto' }}>
         <div style={{
@@ -4182,7 +4100,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
           overflow: 'hidden',
           margin: 'auto',
         }}>
-          {/* 成绩头部 */}
+          {/* 鎴愮哗澶撮儴 */}
           <div style={{
             padding: '20px 24px',
             background: 'linear-gradient(135deg, #78350f, var(--accent-amber-dim))',
@@ -4193,13 +4111,13 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               position: 'absolute', top: '10px', right: '14px',
               fontSize: '10px', color: 'rgba(255,255,255,0.6)',
             }}>
-              中铁七局隧道工竞赛评分表
+              涓搧涓冨眬闅ч亾宸ョ珵璧涜瘎鍒嗚〃
             </div>
             <div style={{
               position: 'absolute', top: '10px', left: '14px',
               fontSize: '10px', color: 'rgba(255,255,255,0.6)',
             }}>
-              参赛号：TJ-2026-001
+              鍙傝禌鍙凤細TJ-2026-001
             </div>
             <div style={{ fontSize: '36px', fontWeight: '900', color: '#fff', letterSpacing: '2px' }}>
               {totalScore.toFixed(0)}
@@ -4218,11 +4136,11 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               {grade}
             </div>
             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', marginTop: '6px' }}>
-              操作时长：{formatTime(operateTime)}
+              鎿嶄綔鏃堕暱锛歿formatTime(operateTime)}
             </div>
           </div>
 
-          {/* 评分表 */}
+          {/* 璇勫垎琛?*/}
           <div style={{ padding: '16px 20px', maxHeight: '50vh', overflowY: 'auto' }}>
             <table style={{
               width: '100%',
@@ -4236,31 +4154,31 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                     borderBottom: '2px solid var(--accent-amber)',
                     color: 'var(--text-primary)', fontWeight: '700',
                     width: '5%',
-                  }}>序号</th>
+                  }}>搴忓彿</th>
                   <th style={{
                     padding: '8px 10px', textAlign: 'left',
                     borderBottom: '2px solid var(--accent-amber)',
                     color: 'var(--text-primary)', fontWeight: '700',
                     width: '55%',
-                  }}>考核项目及评分标准</th>
+                  }}>鑰冩牳椤圭洰鍙婅瘎鍒嗘爣鍑?/th>
                   <th style={{
                     padding: '8px 10px', textAlign: 'center',
                     borderBottom: '2px solid var(--accent-amber)',
                     color: 'var(--text-primary)', fontWeight: '700',
                     width: '10%',
-                  }}>配分</th>
+                  }}>閰嶅垎</th>
                   <th style={{
                     padding: '8px 10px', textAlign: 'center',
                     borderBottom: '2px solid var(--accent-amber)',
                     color: 'var(--text-primary)', fontWeight: '700',
                     width: '10%',
-                  }}>得分</th>
+                  }}>寰楀垎</th>
                   <th style={{
                     padding: '8px 10px', textAlign: 'left',
                     borderBottom: '2px solid var(--accent-amber)',
                     color: 'var(--text-primary)', fontWeight: '700',
                     width: '20%',
-                  }}>扣分说明</th>
+                  }}>鎵ｅ垎璇存槑</th>
                 </tr>
               </thead>
               <tbody>
@@ -4272,7 +4190,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                         color: 'var(--accent-amber)',
                         borderBottom: '1px solid var(--border-color)',
                       }}>
-                        {gi + 1}、{group.name}
+                        {gi + 1}銆亄group.name}
                       </td>
                       <td style={{
                         padding: '6px 10px', textAlign: 'center',
@@ -4334,7 +4252,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                             color: isFull ? 'var(--accent-green)' : 'var(--accent-red)',
                             borderBottom: '1px solid rgba(54, 60, 74, 0.5)',
                           }}>
-                            {isFull ? '达标' : (deduction || `扣${item.score - itemScore}分`)}
+                            {isFull ? '杈炬爣' : (deduction || `鎵?{item.score - itemScore}鍒哷)}
                           </td>
                         </tr>
                       );
@@ -4348,7 +4266,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
                     borderTop: '2px solid var(--accent-amber)',
                     color: 'var(--text-primary)',
                   }}>
-                    合计
+                    鍚堣
                   </td>
                   <td style={{
                     padding: '10px', textAlign: 'center',
@@ -4377,7 +4295,7 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               </tbody>
             </table>
 
-            {/* 裁判签字区 */}
+            {/* 瑁佸垽绛惧瓧鍖?*/}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -4387,13 +4305,13 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
               fontSize: '11px',
               color: 'var(--text-muted)',
             }}>
-              <div>参赛选手签字：______________</div>
-              <div>裁判签字：______________</div>
-              <div>日期：____年__月__日</div>
+              <div>鍙傝禌閫夋墜绛惧瓧锛歘_____________</div>
+              <div>瑁佸垽绛惧瓧锛歘_____________</div>
+              <div>鏃ユ湡锛歘___骞確_鏈坃_鏃?/div>
             </div>
           </div>
 
-          {/* 操作按钮 */}
+          {/* 鎿嶄綔鎸夐挳 */}
           <div style={{
             display: 'flex',
             gap: '10px',
@@ -4402,14 +4320,13 @@ function ExamModule({ mode, onExit, drillState, params, sceneRef }) {
             background: 'var(--bg-card)',
           }}>
             <button className="sim-btn" style={{ flex: 1 }} onClick={() => setExamPhase('intro')}>
-              重新考核
+              閲嶆柊鑰冩牳
             </button>
             <button className="sim-btn" style={{ flex: 1 }} onClick={onExit}>
-              返回自由练习
+              杩斿洖鑷敱缁冧範
             </button>
             <button className="sim-btn primary" style={{ flex: 1 }} onClick={() => window.print()}>
-              打印评分表
-            </button>
+              鎵撳嵃璇勫垎琛?            </button>
           </div>
         </div>
       </div>
@@ -4429,7 +4346,7 @@ function ExamStepBadge({ label, done }) {
       fontSize: '9px',
       fontWeight: '600',
     }}>
-      {done ? '✓ ' : ''}{label}
+      {done ? '鉁?' : ''}{label}
     </div>
   );
 }
@@ -4445,10 +4362,10 @@ Object.assign(window, {
 });
 
 
-// ===== App.jsx =====
+// ===== src/App.jsx =====
 /* ============================================================
-   主应用组件 - 三臂凿岩台车仿真实训AI导师
-   电信杯校园智能体应用创新大赛参赛作品
+   涓诲簲鐢ㄧ粍浠?- 涓夎噦鍑垮博鍙拌溅浠跨湡瀹炶AI瀵煎笀
+   鐢典俊鏉牎鍥櫤鑳戒綋搴旂敤鍒涙柊澶ц禌鍙傝禌浣滃搧
    ============================================================ */
 
 function App() {
@@ -4580,13 +4497,13 @@ function App() {
   };
 
   const handleSendQuestion = (question) => {
-    if (question.includes('硬岩') || question.includes('花岗岩')) {
+    if (question.includes('纭博') || question.includes('鑺卞矖宀?)) {
       setParams(prev => ({ ...prev, rockGrade: 1, impactPower: 31 }));
-    } else if (question.includes('软岩') || question.includes('泥岩')) {
+    } else if (question.includes('杞博') || question.includes('娉ュ博')) {
       setParams(prev => ({ ...prev, rockGrade: 5, impactPower: 24 }));
-    } else if (question.includes('光面爆破') || question.includes('周边眼')) {
+    } else if (question.includes('鍏夐潰鐖嗙牬') || question.includes('鍛ㄨ竟鐪?)) {
       setParams(prev => ({ ...prev, drillDiameter: 45 }));
-    } else if (question.includes('掏槽眼') || question.includes('掏槽')) {
+    } else if (question.includes('鎺忔Ы鐪?) || question.includes('鎺忔Ы')) {
       setParams(prev => ({ ...prev, drillDiameter: 89 }));
     }
   };
@@ -4609,9 +4526,9 @@ function App() {
   };
 
   const modeLabels = {
-    teaching: '教学引导',
-    free: '自由练习',
-    exam: '考核评分',
+    teaching: '鏁欏寮曞',
+    free: '鑷敱缁冧範',
+    exam: '鑰冩牳璇勫垎',
   };
 
   return (
@@ -4629,11 +4546,11 @@ function App() {
             </svg>
           </div>
           <div>
-            <span className="header-title">三臂凿岩台车仿真实训AI导师</span>
-            <span className="header-subtitle">AI赋能校园实训 · 智创美好未来</span>
+            <span className="header-title">涓夎噦鍑垮博鍙拌溅浠跨湡瀹炶AI瀵煎笀</span>
+            <span className="header-subtitle">AI璧嬭兘鏍″洯瀹炶 路 鏅哄垱缇庡ソ鏈潵</span>
           </div>
           <div className="competition-badge">
-            🏆 电信杯参赛作品
+            馃弳 鐢典俊鏉弬璧涗綔鍝?
           </div>
         </div>
         <div className="header-right">
@@ -4643,24 +4560,24 @@ function App() {
               className={`mode-btn ${trainingMode === 'teaching' ? 'active' : ''}`}
               onClick={() => handleTrainingModeChange('teaching')}
             >
-              📚 教学引导
+              馃摎 鏁欏寮曞
             </button>
             <button
               className={`mode-btn ${trainingMode === 'free' ? 'active' : ''}`}
               onClick={() => handleTrainingModeChange('free')}
             >
-              🔧 自由练习
+              馃敡 鑷敱缁冧範
             </button>
             <button
               className={`mode-btn ${trainingMode === 'exam' ? 'active' : ''}`}
               onClick={() => handleTrainingModeChange('exam')}
             >
-              📝 考核评分
+              馃摑 鑰冩牳璇勫垎
             </button>
           </div>
           <div className="header-badge">
             <span className="badge-dot"></span>
-            {modeLabels[trainingMode]}模式
+            {modeLabels[trainingMode]}妯″紡
           </div>
         </div>
       </header>
@@ -4682,7 +4599,7 @@ function App() {
         </div>
       )}
 
-      {/* Exam mode - 中铁七局竞赛评分 */}
+      {/* Exam mode - 涓搧涓冨眬绔炶禌璇勫垎 */}
       {trainingMode === 'exam' && (
         <ExamModule
           mode="exam"
@@ -4714,19 +4631,19 @@ function App() {
             className={`scene-tool-btn ${viewMode === 'normal' ? 'active' : ''}`}
             onClick={() => setViewMode('normal')}
           >
-            🏗 整体视图
+            馃彈 鏁翠綋瑙嗗浘
           </button>
           <button
             className={`scene-tool-btn ${viewMode === 'explode' ? 'active' : ''}`}
             onClick={() => setViewMode('explode')}
           >
-            💥 结构拆解
+            馃挜 缁撴瀯鎷嗚В
           </button>
           <button
             className={`scene-tool-btn ${isSimulating ? 'active' : ''}`}
             onClick={handleSimulate}
           >
-            {isSimulating ? '⏹ 停止仿真' : '▶ 开始仿真'}
+            {isSimulating ? '鈴?鍋滄浠跨湡' : '鈻?寮€濮嬩豢鐪?}
           </button>
         </div>
 
@@ -4734,32 +4651,32 @@ function App() {
         <div className="scene-overlay">
           <div className="scene-info-card">
             <div className="scene-info-row">
-              <span className="scene-info-label">钻孔深度</span>
+              <span className="scene-info-label">閽诲瓟娣卞害</span>
               <span className="scene-info-value">{params.drillDepth.toFixed(1)} m</span>
             </div>
             <div className="scene-info-row">
-              <span className="scene-info-label">钻孔直径</span>
+              <span className="scene-info-label">閽诲瓟鐩村緞</span>
               <span className="scene-info-value">{params.drillDiameter} mm</span>
             </div>
             <div className="scene-info-row">
-              <span className="scene-info-label">围岩等级</span>
-              <span className="scene-info-value">{'ⅠⅡⅢⅣⅤ'[params.rockGrade - 1]}级</span>
+              <span className="scene-info-label">鍥村博绛夌骇</span>
+              <span className="scene-info-value">{'鈪犫叀鈪⑩叄鈪?[params.rockGrade - 1]}绾?/span>
             </div>
             <div className="scene-info-row">
-              <span className="scene-info-label">冲击功率</span>
+              <span className="scene-info-label">鍐插嚮鍔熺巼</span>
               <span className="scene-info-value">{params.impactPower} kW</span>
             </div>
           </div>
 
           <div className="scene-info-card">
             <div className="scene-info-row">
-              <span className="scene-info-label">作业状态</span>
+              <span className="scene-info-label">浣滀笟鐘舵€?/span>
               <span className="scene-info-value" style={{ color: isSimulating ? 'var(--accent-green)' : 'var(--text-muted)' }}>
-                {isSimulating ? '仿真运行中' : '待机'}
+                {isSimulating ? '浠跨湡杩愯涓? : '寰呮満'}
               </span>
             </div>
             <div className="scene-info-row">
-              <span className="scene-info-label">实训模式</span>
+              <span className="scene-info-label">瀹炶妯″紡</span>
               <span className="scene-info-value" style={{ color: 'var(--accent-purple)' }}>
                 {modeLabels[trainingMode]}
               </span>
@@ -4770,34 +4687,34 @@ function App() {
         {/* Legend */}
         <div className="scene-legend">
           <div style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '4px' }}>
-            钻臂编号
+            閽昏噦缂栧彿
           </div>
           <div className="legend-item">
             <div className="legend-color" style={{ background: '#ef4444' }}></div>
-            1号臂（左）
+            1鍙疯噦锛堝乏锛?
           </div>
           <div className="legend-item">
             <div className="legend-color" style={{ background: '#f59e0b' }}></div>
-            2号臂（中）
+            2鍙疯噦锛堜腑锛?
           </div>
           <div className="legend-item">
             <div className="legend-color" style={{ background: '#3b82f6' }}></div>
-            3号臂（右）
+            3鍙疯噦锛堝彸锛?
           </div>
           <div style={{ borderTop: '1px solid var(--border-color)', marginTop: '6px', paddingTop: '6px', fontSize: '11px', fontWeight: '600', color: 'var(--text-primary)' }}>
-            炮孔类型
+            鐐瓟绫诲瀷
           </div>
           <div className="legend-item">
             <div className="legend-color" style={{ background: '#ef4444' }}></div>
-            掏槽眼
+            鎺忔Ы鐪?
           </div>
           <div className="legend-item">
             <div className="legend-color" style={{ background: '#f59e0b' }}></div>
-            辅助眼
+            杈呭姪鐪?
           </div>
           <div className="legend-item">
             <div className="legend-color" style={{ background: '#10b981' }}></div>
-            周边眼
+            鍛ㄨ竟鐪?
           </div>
         </div>
 
@@ -4817,11 +4734,11 @@ function App() {
               {selectedPart.metadata.function}
             </div>
             <div className="part-popup-section">
-              <div className="part-popup-label">连接方式</div>
+              <div className="part-popup-label">杩炴帴鏂瑰紡</div>
               <div className="part-popup-text">{selectedPart.metadata.connection}</div>
             </div>
             <div className="part-popup-section">
-              <div className="part-popup-label">传感器配置</div>
+              <div className="part-popup-label">浼犳劅鍣ㄩ厤缃?/div>
               <div className="part-popup-text">{selectedPart.metadata.sensors}</div>
             </div>
             <div style={{
@@ -4838,13 +4755,13 @@ function App() {
               if (chatPanel) chatPanel.scrollTop = chatPanel.scrollHeight;
             }}
             >
-              💡 AI导师详细讲解 →
+              馃挕 AI瀵煎笀璇︾粏璁茶В 鈫?
             </div>
           </div>
         )}
 
         <div className="scene-controls-hint">
-          拖拽旋转视角 · 滚轮缩放 · 点击部件查看结构{viewMode === 'explode' ? '（爆炸视图）' : ''}
+          鎷栨嫿鏃嬭浆瑙嗚 路 婊氳疆缂╂斁 路 鐐瑰嚮閮ㄤ欢鏌ョ湅缁撴瀯{viewMode === 'explode' ? '锛堢垎鐐歌鍥撅級' : ''}
         </div>
       </div>
 
